@@ -1,0 +1,2542 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>好想兔 10th Anni. 作戰指揮中心</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAALCAIAAACRcxhWAAAD5klEQVR42mWTyW8bVQCH33uescfLjD2O4y0eO7azNkZJ2mYTUqAIFaEihAqRekCAEAckBH8CqsSBA1CpcODAogoRKiEOLFHapmlIpDb75iSIBCduYie2Y3vGdpzMeBbP45ALEr/zp9/p+yDGGGMMIQQASKIkSSLGGADAOp0lQTCQZoTlJ/dHXxr5ABkQ+N/SBykb42BZZvLXOxTjtdCNF/su/Rcgzt+LhcLG2grAGCKIMdbrKiAc6YWvw5EQ0/xiOX77vrWtudlf1+qyrArVVFtLj1w7c/mjW/dumm0sN/yxNfXZ4nFv3T5wVi0zdldJPKjWcsN9IwSEsCQIS3Nz4UgzQtjG0KqiiuIZgKaib1BM3ckk17zRIdoXqJ4If21udfcMjT/+anqNOlX233v9D38g6Cj9MD4KbnTo8aLSEArRtGNpeeZv/dOScGKoM0hV1dXFRZsVLsxOJPfSmqZpmjr/ZGX6wXf+aA8ZfTdGL9TIMOugK+WKkaIQgs/3vVnzPuoIPxdrb5WQO32sDLFj85unbkYGCJZKfDTarku0w2cQpASxu7Njoow8z5stlr1Ekgt4dAwURY60D1fKhdbulzf2/ySRJ3uYIo1UXdMoE0WzpL7nfu36TYQw4wpP5ziPP6i7OB2QRF1XVbVeh15zf009ikVegFMTE1zAfSKcVmuK3UEjgDDGFtp6dib5VNliJKafZq5dfzWxndRkwenmfB7P59++FfL1DsZGuHAgubsry7VQtKuYz1qt9sWlsa7O/sZGj5GwaKpusiL4cHxsgLFbMQCXL2nI8MtPdwv5wvsffWiiTGB7R84dxRGhKce1rVsqRhq0X3jlS1UFGOurywtcMJjP5WwM0xwOTU8+MhAwfvrFO1e/v9h95VwhjDGizJYy1lFLi24gSZJ0sGyJL5ook6IooKM9yzWVRM1OaapU5slhS/3g97vfPE3uTE2MXYg9o6kqaTRyQW5jPW4k6YPisi1UnpoZezwzk80dnuuOfAFu7jAtsg6CJCCEg32Xr125AgAwGo2VQmF7PW5nLGZni80MI+RDSSVIR5hlrf4mfy6T4fmi1+9L7PxjoqjOro5wU4900GDbn9387Y0fR29BCDHWiQDHba4urz64R7ncNUU1UVQVoYXZuUw6ZSFgXdc7Y11VPpspQWfHJ2r1thXymUyxJooYEIFgaH1ltbu3J5/P7yUS1ZriqRj6I+UqOdAw9DYAAJ5nxReL8eUlURQjrW1cKAQAQAhVT05K5XITxzE0LYri/OTPz169wQsVPn+k66AkCDaaYex2V6Mrl8m6vR5Zlg0Gslw8Qlhy+rtcLsd5wv8CgiHugiGwfWcAAAAASUVORK5CYII=">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#faf9f7;--surface:#fff;--surface2:#f5f3ef;--border:#e8e4dc;
+  --text:#1a1814;--text2:#6b6560;--text3:#9e9891;
+  --accent:#c94a2a;--accent-l:#fdf0ec;
+  --green:#2a6b4a;--green-l:#edf5f0;
+  --amber:#b87020;--amber-l:#fdf5e8;
+  --purple:#5a3a8c;--purple-l:#f0eaf8;
+  --blue:#2455a4;--blue-l:#eaf0fb;
+  --teal:#0f766e;--teal-l:#e6f5f3;
+  --r:10px;--rs:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
+.hd{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.hd-brand{display:flex;align-items:center;gap:10px}
+.hd-dot{width:30px;height:30px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px}
+.hd-name{font-size:15px;font-weight:600}
+.hd-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.hd-meta{font-size:12px;color:var(--text3)}
+
+/* Upload section - 3 columns */
+.upload-wrap{padding:20px 28px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.upload-block{display:flex;flex-direction:column;gap:7px}
+.upload-label-main{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;display:flex;align-items:center;gap:5px}
+.upload-zone{background:var(--surface);border:1.5px dashed var(--border);border-radius:var(--r);padding:14px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:var(--accent-l)}
+.upload-zone input{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2}
+.uz-icon{font-size:18px;margin-bottom:3px}
+.uz-label{font-size:12px;font-weight:500}
+.uz-sub{font-size:10px;color:var(--text3);margin-top:2px}
+.uz-btn{display:inline-block;margin-top:7px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500}
+.uz-btn.c1{background:var(--accent);color:#fff}
+.uz-btn.c2{background:var(--blue);color:#fff}
+.uz-btn.c3{background:var(--purple);color:#fff}
+.upload-zone.has-data{border-style:solid}
+.upload-zone.has-data.c1{border-color:var(--accent);background:var(--accent-l)}
+.upload-zone.has-data.c2{border-color:var(--blue);background:var(--blue-l)}
+.upload-zone.has-data.c3{border-color:var(--purple);background:var(--purple-l)}
+.date-chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{display:flex;align-items:center;gap:4px;padding:2px 8px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:10px;color:var(--text2)}
+.chip.c1{border-color:var(--accent);background:var(--accent-l);color:var(--accent)}
+.chip.c2{border-color:var(--blue);background:var(--blue-l);color:var(--blue)}
+.chip.c3{border-color:var(--purple);background:var(--purple-l);color:var(--purple)}
+.chip-x{cursor:pointer;font-size:12px;line-height:1;opacity:.6}
+.chip-x:hover{opacity:1}
+.match-indicator{font-size:10px;padding:5px 10px;border-radius:var(--rs);margin-top:2px}
+.match-ok{background:var(--green-l);color:var(--green)}
+.match-warn{background:var(--amber-l);color:var(--amber)}
+
+/* Filter panel */
+.filter-panel{margin:12px 28px 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:none}
+.filter-toggle{padding:10px 15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.ftl{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600}
+.fbadge{background:var(--accent);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;display:none}
+.farrow{font-size:10px;color:var(--text3);transition:transform .2s}
+.farrow.open{transform:rotate(180deg)}
+.filter-body{display:none;border-top:1px solid var(--border);padding:14px}
+.filter-body.open{display:block}
+.filter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.3px}
+.fr{display:flex;gap:4px;align-items:center}
+select,input[type=date],input[type=number]{width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:var(--rs);font-size:11px;color:var(--text);background:var(--bg);outline:none;font-family:inherit}
+select:focus,input:focus{border-color:var(--accent)}
+.fs{color:var(--text3);font-size:10px;white-space:nowrap}
+.tag-wrap{display:flex;flex-wrap:wrap;gap:4px;max-height:72px;overflow-y:auto}
+.tag{padding:2px 7px;border:1px solid var(--border);border-radius:10px;font-size:10px;cursor:pointer;background:var(--surface2);color:var(--text2);transition:all .15s;white-space:nowrap}
+.tag.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.filter-actions{display:flex;gap:6px;margin-top:12px;justify-content:flex-end}
+.btn{padding:5px 12px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text2)}
+.btn:hover{background:var(--border)}
+.btn-p{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-p:hover{background:#b03d22}
+.active-filters{display:none;flex-wrap:wrap;gap:4px;padding:7px 15px;border-top:1px solid var(--border);background:var(--surface2)}
+.af-pill{padding:2px 7px;background:var(--accent-l);border:1px solid #f0c4b8;border-radius:10px;font-size:10px;color:var(--accent)}
+
+/* Main */
+.main{padding:16px 28px 48px}
+
+/* Revenue overview banner */
+.rev-banner{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;padding:14px 16px;background:var(--text);border-radius:var(--r)}
+.rb-item{text-align:center}
+.rb-label{font-size:10px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.rb-val{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.5px}
+.rb-val.accent{color:#f4a58a}
+.rb-val.blue{color:#8ab4f8}
+.rb-val.purple{color:#c4a8f4}
+.rb-note{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
+.rb-divider{width:1px;background:rgba(255,255,255,.1);margin:0 4px}
+
+/* KPI grid */
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 13px}
+.kpi-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.kpi-val{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.4px}
+.kpi-val.hi{color:var(--accent)}.kpi-val.blue{color:var(--blue)}.kpi-val.purple{color:var(--purple)}
+.kpi-note{font-size:10px;color:var(--text3);margin-top:2px}
+.kpi-sub{font-size:10px;color:var(--text3);margin-top:2px;padding-top:3px;border-top:1px solid var(--border)}
+.kpi.locked{opacity:.45;background:var(--surface2)}
+
+/* Section */
+.sec{margin-bottom:16px}
+.sec-title{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.sec-tag{font-size:9px;padding:1px 6px;border-radius:8px;font-weight:600}
+.sec-tag.t1{background:var(--accent-l);color:var(--accent)}
+.sec-tag.t2{background:var(--purple-l);color:var(--purple)}
+.sec-tag.t3{background:var(--blue-l);color:var(--blue)}
+
+/* Charts */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.chart-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.chart-card.full{grid-column:1/-1}
+.ct{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
+.cs{font-size:10px;color:var(--text3);margin-bottom:11px}
+.cw{position:relative;width:100%}
+
+/* Ticket section */
+.ticket-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:11px}
+.tk-card{background:var(--surface);border:1px solid var(--purple);border-radius:var(--r);padding:11px 13px}
+.tk-label{font-size:10px;color:var(--purple);font-weight:600;margin-bottom:3px}
+.tk-val{font-size:16px;font-weight:700;color:var(--purple)}
+.tk-note{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* Payment */
+.order-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:11px}
+.order-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 14px}
+.pay-bar{height:7px;border-radius:4px;overflow:hidden;display:flex;gap:1px;margin-top:7px}
+.pay-seg{height:100%;border-radius:2px}
+
+/* Table */
+.tbl-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.tbl-hd{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.tbl-title{font-size:12px;font-weight:600}
+.tbl-right{display:flex;gap:6px;align-items:center}
+.tbl-count{font-size:10px;color:var(--text3);white-space:nowrap}
+.tbl-search{padding:4px 10px;border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--text);background:var(--bg);outline:none;width:160px}
+.tbl-search:focus{border-color:var(--accent)}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead th{padding:7px 11px;text-align:left;font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.3px;text-transform:uppercase;background:var(--surface2);border-bottom:1px solid var(--border);cursor:pointer;user-select:none;white-space:nowrap}
+thead th:hover{color:var(--text)}
+thead th.sorted{color:var(--accent)}
+thead th.sorted::after{content:attr(data-dir);margin-left:3px;font-size:8px}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+tbody td{padding:7px 11px;color:var(--text)}
+td.muted{color:var(--text3)}td.num{text-align:right;font-variant-numeric:tabular-nums}td.bold{font-weight:600}
+.badge{display:inline-block;padding:2px 6px;border-radius:8px;font-size:9px;font-weight:500}
+.b0{background:var(--accent-l);color:var(--accent)}.b1{background:var(--amber-l);color:var(--amber)}
+.b2{background:var(--green-l);color:var(--green)}.b3{background:var(--purple-l);color:var(--purple)}
+.b4{background:var(--blue-l);color:var(--blue)}.b5{background:var(--surface2);color:var(--text2)}
+.mini-bar-wrap{display:flex;align-items:center;gap:4px}
+.mini-bar{height:5px;border-radius:3px;min-width:2px}
+.pgn{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-top:1px solid var(--border);font-size:10px;color:var(--text3)}
+.pbtns{display:flex;gap:3px}
+.pb{padding:2px 7px;border:1px solid var(--border);border-radius:4px;background:var(--surface);font-size:10px;color:var(--text2);cursor:pointer}
+.pb:hover:not(:disabled){background:var(--surface2)}
+.pb:disabled{opacity:.4;cursor:not-allowed}
+.pb.act{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;text-align:center}
+.toast{position:fixed;bottom:24px;right:24px;padding:10px 18px;border-radius:8px;font-size:12px;font-weight:500;color:#fff;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.ok{background:#2a6b4a}.toast.err{background:#c94a2a}.toast.info{background:#2455a4}
+.upload-zone.loading{opacity:.6;pointer-events:none}
+.empty-icon{font-size:36px;margin-bottom:10px;opacity:.4}
+.empty-title{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:5px}
+.empty-sub{font-size:11px;color:var(--text3)}
+.unlock-msg{display:flex;align-items:center;gap:7px;padding:10px 14px;border-radius:var(--rs);font-size:11px;margin-bottom:14px}
+.unlock-msg.amber{background:var(--amber-l);color:var(--amber)}
+.unlock-msg.purple{background:var(--purple-l);color:var(--purple)}
+
+@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr)}.rev-banner{grid-template-columns:repeat(2,1fr)}.chart-grid.cols3{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.upload-wrap{grid-template-columns:1fr}.chart-grid{grid-template-columns:1fr}.filter-grid{grid-template-columns:1fr}.order-grid{grid-template-columns:1fr}.ticket-stats{grid-template-columns:repeat(2,1fr)}.hd,.upload-wrap,.main{padding-left:14px;padding-right:14px}.filter-panel{margin-left:14px;margin-right:14px}}
+@media(max-width:600px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ── Mission Control ── */
+.mc-panel{margin:12px 28px 0;border-radius:var(--r);overflow:hidden;background:#111318;border:1px solid #2a2d38}
+.mc-header{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2d38}
+.mc-title{font-size:12px;font-weight:700;color:#fff;letter-spacing:.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.mc-dot{width:8px;height:8px;border-radius:50%;background:#f87171;animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.mc-date{font-size:11px;color:#6b7280}
+.mc-body{padding:16px 18px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+.mc-kpi{background:#1a1d27;border:1px solid #2a2d38;border-radius:8px;padding:12px 14px}
+.mc-label{font-size:9px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.mc-val{font-size:20px;font-weight:700;letter-spacing:-.5px}
+.mc-val.green{color:#34d399}
+.mc-val.red{color:#f87171}
+.mc-val.amber{color:#fbbf24}
+.mc-val.white{color:#fff}
+.mc-note{font-size:10px;color:#6b7280;margin-top:3px}
+.mc-progress-wrap{padding:0 18px 16px;display:flex;flex-direction:column;gap:8px}
+.mc-progress-label{display:flex;justify-content:space-between;font-size:11px}
+.mc-progress-label span:first-child{color:#9ca3af}
+.mc-progress-label span:last-child{color:#fff;font-weight:600}
+.mc-bar-bg{height:10px;background:#2a2d38;border-radius:5px;overflow:hidden}
+.mc-bar-fill{height:100%;border-radius:5px;transition:width .5s ease}
+.mc-bar-fill.green{background:linear-gradient(90deg,#059669,#34d399)}
+.mc-bar-fill.amber{background:linear-gradient(90deg,#b45309,#fbbf24)}
+.mc-bar-fill.red{background:linear-gradient(90deg,#991b1b,#f87171)}
+.mc-daily-grid{padding:0 18px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mc-daily-card{background:#1a1d27;border-radius:8px;padding:12px 14px;border:1px solid #2a2d38}
+.mc-daily-title{font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.mc-daily-title .dot-wk{width:7px;height:7px;border-radius:50%;background:#fbbf24;display:inline-block}
+.mc-daily-title .dot-hd{width:7px;height:7px;border-radius:50%;background:#818cf8;display:inline-block}
+.mc-daily-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px}
+.mc-daily-main{font-size:18px;font-weight:700;color:#fff}
+.mc-daily-sub{font-size:10px;color:#6b7280}
+.mc-divider{height:1px;background:#2a2d38;margin:0 18px 14px}
+
+/* ── Visitor Input Panel ── */
+.vi-panel{margin:12px 28px 32px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.vi-header{padding:11px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.vi-header-left{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.vi-header-right{display:flex;gap:6px;align-items:center}
+.vi-body{padding:14px 16px}
+.vi-input-row{display:grid;grid-template-columns:160px 1fr 1fr auto auto;gap:8px;align-items:end;margin-bottom:12px}
+.vi-field{display:flex;flex-direction:column;gap:4px}
+.vi-field label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.3px}
+.vi-field input{padding:7px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;color:var(--text);background:var(--bg);outline:none;font-family:inherit;width:100%}
+.vi-field input:focus{border-color:var(--purple)}
+.vi-field textarea{padding:7px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:12px;color:var(--text);background:var(--bg);outline:none;font-family:inherit;width:100%;resize:none;height:34px}
+.vi-field textarea:focus{border-color:var(--purple)}
+.vi-btn{padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;white-space:nowrap;align-self:end}
+.vi-btn-save{background:var(--purple);color:#fff}
+.vi-btn-save:hover{background:#4a2d7a}
+.vi-btn-export{background:var(--surface2);color:var(--text2);border:1px solid var(--border)}
+.vi-btn-export:hover{background:var(--border)}
+.vi-btn-import{background:var(--surface2);color:var(--text2);border:1px solid var(--border);position:relative;overflow:hidden}
+.vi-btn-import input{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+/* Visitor history table */
+.vi-table-wrap{margin-top:14px}
+.vi-table-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.vi-table-title{font-size:12px;font-weight:600;color:var(--text)}
+.vi-stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.vi-stat{background:var(--surface2);border-radius:var(--rs);padding:10px 12px;border:1px solid var(--border)}
+.vi-stat-label{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+.vi-stat-val{font-size:16px;font-weight:700;color:var(--purple)}
+.vi-stat-val.green{color:var(--green)}
+.vi-stat-val.amber{color:var(--amber)}
+.vi-stat-note{font-size:9px;color:var(--text3);margin-top:2px}
+.vi-row-del{cursor:pointer;color:var(--text3);font-size:13px;padding:0 4px}
+.vi-row-del:hover{color:var(--accent)}
+.vi-empty{text-align:center;padding:20px;font-size:12px;color:var(--text3)}
+
+/* Trend mini chart */
+.vi-chart-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+
+/* ── Ranking Panel ── */
+.rk-panel{margin:12px 28px 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:none}
+.rk-header{padding:11px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.rk-title{font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px}
+.rk-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface2)}
+.rk-tab{padding:9px 16px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s;white-space:nowrap}
+.rk-tab:hover{color:var(--text)}
+.rk-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.rk-section{display:none;padding:16px}
+.rk-section.active{display:block}
+.rk-top-selector{display:flex;gap:6px;align-items:center}
+.rk-top-selector label{font-size:11px;color:var(--text3)}
+.rk-top-selector select{width:auto;padding:4px 8px;font-size:11px}
+
+/* Ranking list */
+.rk-list{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.rk-item{display:grid;grid-template-columns:32px 1fr auto auto;gap:8px;align-items:center;padding:9px 12px;background:var(--surface2);border-radius:var(--rs);border:1px solid var(--border);transition:background .1s}
+.rk-item:hover{background:#f0ede8}
+.rk-item.top1{background:linear-gradient(90deg,#fffbeb,var(--surface2));border-color:#fde68a}
+.rk-item.top2{background:linear-gradient(90deg,#f8fafc,var(--surface2));border-color:#e2e8f0}
+.rk-item.top3{background:linear-gradient(90deg,#fff7f0,var(--surface2));border-color:#fed7aa}
+.rk-rank{font-size:16px;font-weight:800;text-align:center;min-width:24px}
+.rk-rank.r1{color:#d97706}
+.rk-rank.r2{color:#64748b}
+.rk-rank.r3{color:#c2410c}
+.rk-rank.rn{color:var(--text3);font-size:13px;font-weight:600}
+.rk-info{min-width:0}
+.rk-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.rk-bar-wrap{flex:1;display:flex;align-items:center;gap:6px;min-width:80px;max-width:200px}
+.rk-bar-bg{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.rk-bar-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.rk-bar-fill.rev{background:linear-gradient(90deg,#c94a2a,#f87171)}
+.rk-bar-fill.qty{background:linear-gradient(90deg,#2a6b4a,#34d399)}
+.rk-bar-fill.sup{background:linear-gradient(90deg,#5a3a8c,#a78bfa)}
+.rk-val{text-align:right;min-width:90px}
+.rk-val-main{font-size:13px;font-weight:700;color:var(--text)}
+.rk-val-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.rk-pct{font-size:10px;color:var(--text3);min-width:36px;text-align:right}
+
+/* Toggle between rev/qty */
+.rk-toggle{display:flex;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:2px}
+.rk-toggle-btn{padding:4px 10px;border-radius:4px;font-size:11px;font-weight:500;cursor:pointer;color:var(--text3);border:none;background:none}
+.rk-toggle-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+/* ── Gashapon Input ── */
+.gc-panel{margin:12px 28px 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.gc-header{padding:11px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.gc-header-left{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.gc-body{padding:14px 16px}
+.gc-input-row{display:grid;grid-template-columns:160px 1fr 1fr auto auto;gap:8px;align-items:end;margin-bottom:12px}
+.gc-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.gc-stat{background:var(--surface2);border-radius:var(--rs);padding:10px 12px;border:1px solid var(--border)}
+.gc-stat-label{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+.gc-stat-val{font-size:16px;font-weight:700;color:var(--amber)}
+.gc-stat-note{font-size:9px;color:var(--text3);margin-top:2px}
+.rmov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;align-items:center;justify-content:center}
+.rmov.open{display:flex}
+.rmod{background:var(--card);border-radius:12px;padding:20px 24px;max-width:600px;width:94%;max-height:80vh;display:flex;flex-direction:column;gap:10px}
+.rmod-hd{display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.rmod-title{font-size:14px;font-weight:700}
+.rmod-x{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text2);line-height:1;padding:0}
+.rmod-scroll{overflow-y:auto;flex:1}
+.rmod table{width:100%;border-collapse:collapse;font-size:12px}
+.rmod th{text-align:right;padding:5px 8px;color:var(--text3);font-weight:500;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;background:var(--card)}
+.rmod th:first-child{text-align:left}
+.rmod td{text-align:right;padding:5px 8px;border-bottom:1px solid rgba(128,128,128,.1);font-variant-numeric:tabular-nums}
+.rmod td:first-child{text-align:left;color:var(--text2);white-space:nowrap}
+.rmod tfoot td{font-weight:700;border-top:2px solid var(--border);padding-top:8px;background:var(--card)}
+.rb-item.clickable{cursor:pointer;transition:opacity .15s}
+.rb-item.clickable:hover{opacity:.75}
+.dash-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin:12px -28px 0;padding:0 28px;overflow-x:auto;scrollbar-width:none}
+.dash-tabs::-webkit-scrollbar{display:none}
+.dtab{padding:10px 14px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:color .15s;font-family:inherit}
+.dtab:hover{color:var(--text)}
+.dtab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+.dpanel{display:none;padding-top:14px}
+.dpanel.active{display:block}
+.dash-stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px}
+.dash-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:12px;text-align:center}
+.ds-val{font-size:17px;font-weight:700;color:var(--accent);margin-bottom:3px}
+.ds-label{font-size:10px;color:var(--text3)}
+.sup-table{width:100%;border-collapse:collapse;font-size:12px}
+.sup-table th{padding:7px 10px;background:var(--surface2);text-align:left;font-size:11px;color:var(--text2);font-weight:500;border-bottom:1px solid var(--border)}
+.sup-table td{padding:6px 10px;border-bottom:1px solid rgba(128,128,128,.08)}
+.sup-table tr:last-child td{border-bottom:none}
+.unlock-big{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center;gap:10px}
+.ub-icon{font-size:48px;opacity:.25}
+.ub-title{font-size:16px;font-weight:600;color:var(--text2)}
+.ub-sub{font-size:12px;color:var(--text3);max-width:300px;line-height:1.7}
+@media(max-width:800px){.dash-tabs{margin-left:-14px;margin-right:-14px;padding:0 14px}}
+
+/* Cloud loading overlay */
+.cloud-loading{position:fixed;inset:0;background:rgba(250,249,247,.92);z-index:8000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;display:none}
+.cl-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:cl-spin .7s linear infinite}
+@keyframes cl-spin{to{transform:rotate(360deg)}}
+.cl-text{font-size:13px;color:var(--text2)}
+.cl-err{font-size:12px;color:var(--accent);max-width:320px;text-align:center;line-height:1.6;display:none}
+.cl-err a{color:var(--accent);font-weight:600}
+
+/* Password modal */
+.pw-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.pw-overlay.open{opacity:1;pointer-events:all}
+.pw-modal{background:var(--surface);border-radius:14px;padding:28px 28px 22px;width:320px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center;display:flex;flex-direction:column;gap:10px}
+.pw-icon{font-size:36px;line-height:1}
+.pw-title{font-size:15px;font-weight:700;color:var(--text)}
+.pw-sub{font-size:12px;color:var(--text3);line-height:1.6}
+.pw-input{width:100%;padding:9px 13px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;letter-spacing:3px;text-align:center;outline:none;font-family:inherit;background:var(--bg);transition:border-color .15s}
+.pw-input:focus{border-color:var(--accent)}
+.pw-err{font-size:11px;color:var(--accent);display:none;margin-top:-4px}
+.pw-btns{display:flex;gap:8px;margin-top:4px}
+.pw-btn-cancel{flex:1;padding:8px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit}
+.pw-btn-ok{flex:1;padding:8px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.pw-btn-ok:hover{background:#b03e22}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="hd-brand">
+    <img src="data:image/png;base64,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" alt="好想兔 Logo" style="height:36px;width:auto;object-fit:contain;display:block">
+    <div style="width:1px;height:28px;background:var(--border);margin:0 4px"></div>
+    <div>
+      <div class="hd-name">好想兔 10th Anni. 作戰指揮中心</div>
+      <div class="hd-sub">駁二特區｜台味萬花筒特展 · 總體分析</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="hd-meta" id="hd-meta">尚未載入數據</div>
+    <button id="sync-btn" onclick="syncToCloud()" style="padding:5px 12px;border-radius:20px;border:none;background:#2455a4;color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;display:inline-flex;gap:5px;align-items:center">☁ 同步至雲端</button>
+  </div>
+</header>
+
+<!-- Three Upload Zones -->
+<div class="upload-wrap">
+  <!-- 1. Sales -->
+  <div class="upload-block">
+    <div class="upload-label-main"><span style="color:var(--accent)">●</span> 商品銷售報表</div>
+    <div class="upload-zone c1" id="uz-sales">
+      <input type="file" id="fi-sales" accept=".xlsx,.xls" multiple>
+      <div class="uz-icon">📦</div>
+      <div class="uz-label">商品銷售總表</div>
+      <div class="uz-sub">每日銷售報表 · 支援多日</div>
+      <div class="uz-btn c1">選擇銷售報表</div>
+    </div>
+    <div class="date-chips" id="chips-sales"></div>
+  </div>
+
+  <!-- 2. Ticket -->
+  <div class="upload-block">
+    <div class="upload-label-main"><span style="color:var(--purple)">●</span> 票房銷售報表</div>
+    <div class="upload-zone c3" id="uz-ticket">
+      <input type="file" id="fi-ticket" accept=".xlsx,.xls" multiple>
+      <div class="uz-icon">🎟</div>
+      <div class="uz-label">展覽票房日報</div>
+      <div class="uz-sub">每日票券銷售 · 支援多日</div>
+      <div class="uz-btn c3">選擇票房報表</div>
+    </div>
+    <div class="date-chips" id="chips-ticket"></div>
+  </div>
+
+
+  <!-- 3. Order -->
+  <div class="upload-block">
+    <div class="upload-label-main"><span style="color:var(--blue)">●</span> 訂單彙總報表</div>
+    <div class="upload-zone c2" id="uz-order">
+      <input type="file" id="fi-order" accept=".xlsx,.xls" multiple>
+      <div class="uz-icon">🧾</div>
+      <div class="uz-label">訂單彙總表</div>
+      <div class="uz-sub">客單價計算 · 支援多日</div>
+      <div class="uz-btn c2">選擇訂單報表</div>
+    </div>
+    <div class="date-chips" id="chips-order"></div>
+    <div id="match-indicator"></div>
+  </div>
+</div>
+
+
+<!-- Mission Control Panel -->
+<div class="mc-panel" id="mc-panel">
+  <div class="mc-header">
+    <div class="mc-title">
+      <span class="mc-dot"></span>
+      作戰指揮中心 · 目標追蹤
+    </div>
+    <div class="mc-date" id="mc-today"></div>
+  </div>
+  <div class="mc-body">
+    <div class="mc-kpi clickable" onclick="showRevModal()" title="點擊查看每日明細" style="cursor:pointer">
+      <div class="mc-label">累積總營收 <span style="font-size:9px;opacity:.5">▶ 明細</span></div>
+      <div class="mc-val white" id="mc-total">NT$ ─</div>
+      <div class="mc-note">訂單結算 + 扭蛋</div>
+    </div>
+    <div class="mc-kpi">
+      <div class="mc-label">目標達成率</div>
+      <div class="mc-val" id="mc-rate">─</div>
+      <div class="mc-note" id="mc-rate-note">目標 NT$ 40,000,000</div>
+    </div>
+    <div class="mc-kpi">
+      <div class="mc-label">業績缺口</div>
+      <div class="mc-val" id="mc-gap">─</div>
+      <div class="mc-note" id="mc-gap-note">距目標差距</div>
+    </div>
+    <div class="mc-kpi">
+      <div class="mc-label">剩餘天數</div>
+      <div class="mc-val white" id="mc-days">─</div>
+      <div class="mc-note" id="mc-days-note">展期至 8/30</div>
+    </div>
+  </div>
+  <div class="mc-progress-wrap">
+    <div class="mc-progress-label">
+      <span>業績進度</span>
+      <span id="mc-progress-pct">0%</span>
+    </div>
+    <div class="mc-bar-bg">
+      <div class="mc-bar-fill green" id="mc-bar" style="width:0%"></div>
+    </div>
+    <div class="mc-progress-label" style="margin-top:4px">
+      <span>展期進度</span>
+      <span id="mc-time-pct">0%</span>
+    </div>
+    <div class="mc-bar-bg">
+      <div class="mc-bar-fill amber" id="mc-time-bar" style="width:0%"></div>
+    </div>
+  </div>
+  <div class="mc-divider"></div>
+  <div class="mc-daily-grid">
+    <div class="mc-daily-card">
+      <div class="mc-daily-title"><span class="dot-wk"></span> 平日每日目標</div>
+      <div class="mc-daily-row">
+        <div class="mc-daily-main" id="mc-weekday-target">─</div>
+        <div class="mc-daily-sub">/ 天</div>
+      </div>
+      <div class="mc-note" id="mc-weekday-note" style="color:#6b7280;font-size:10px"></div>
+    </div>
+    <div class="mc-daily-card">
+      <div class="mc-daily-title"><span class="dot-hd"></span> 假日每日目標</div>
+      <div class="mc-daily-row">
+        <div class="mc-daily-main" id="mc-weekend-target">─</div>
+        <div class="mc-daily-sub">/ 天</div>
+      </div>
+      <div class="mc-note" id="mc-weekend-note" style="color:#6b7280;font-size:10px"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Gashapon Input Panel -->
+<div class="gc-panel" id="gc-panel">
+  <div class="gc-header">
+    <div class="gc-header-left">
+      <span style="font-size:16px">🎰</span>
+      扭蛋機每日營業額
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="vi-btn vi-btn-export" onclick="exportGachaCSV()">⬇ 匯出 CSV</button>
+      <div class="vi-btn vi-btn-import">⬆ 匯入 CSV<input type="file" accept=".csv" onchange="importGachaCSV(this)"></div>
+    </div>
+  </div>
+  <div class="gc-body">
+    <div class="gc-input-row">
+      <div class="vi-field">
+        <label>日期</label>
+        <input type="date" id="gc-date">
+      </div>
+      <div class="vi-field">
+        <label>扭蛋營業額 (NT$)</label>
+        <input type="number" id="gc-revenue" placeholder="例：3200" min="0">
+      </div>
+      <div class="vi-field">
+        <label>備註（選填）</label>
+        <textarea id="gc-note" placeholder="機台狀況、補貨等…" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:12px;background:var(--bg);outline:none;font-family:inherit;width:100%;resize:none;height:34px"></textarea>
+      </div>
+      <button class="vi-btn vi-btn-save" onclick="saveGachaEntry()" style="background:var(--amber);color:#fff">儲存</button>
+    </div>
+    <div class="gc-stats-row">
+      <div class="gc-stat"><div class="gc-stat-label">累積扭蛋營收</div><div class="gc-stat-val" id="gc-total">─</div><div class="gc-stat-note">有紀錄天數合計</div></div>
+      <div class="gc-stat"><div class="gc-stat-label">日均扭蛋營收</div><div class="gc-stat-val" id="gc-avg">─</div><div class="gc-stat-note">每日平均</div></div>
+      <div class="gc-stat"><div class="gc-stat-label">最高單日</div><div class="gc-stat-val" id="gc-max">─</div><div class="gc-stat-note" id="gc-max-date"></div></div>
+      <div class="gc-stat"><div class="gc-stat-label">紀錄天數</div><div class="gc-stat-val" id="gc-days">─</div><div class="gc-stat-note">已輸入天數</div></div>
+    </div>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr>
+          <th>日期</th>
+          <th style="text-align:right">扭蛋營收</th>
+          <th style="text-align:right">訂單營收</th>
+          <th style="text-align:right">票房營收</th>
+          <th style="text-align:right">當日總營收</th>
+          <th>備註</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="gc-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Panel -->
+<div class="filter-panel" id="filter-panel">
+  <div class="filter-toggle" onclick="toggleFilter()">
+    <div class="ftl">🔍 篩選條件 <span class="fbadge" id="fbadge">0</span></div>
+    <span class="farrow" id="farrow">▼</span>
+  </div>
+  <div class="filter-body" id="filter-body">
+    <div class="filter-grid">
+      <div class="fg">
+        <div class="fl">📅 日期區間</div>
+        <div class="fr"><input type="date" id="f-ds" onchange="applyFilters()"><span class="fs">～</span><input type="date" id="f-de" onchange="applyFilters()"></div>
+        <div class="tag-wrap">
+          <span class="tag" onclick="setDP('all')">全部</span>
+          <span class="tag" onclick="setDP('last7')">近 7 天</span>
+          <span class="tag" onclick="setDP('last14')">近 14 天</span>
+          <span class="tag" onclick="setDP('last30')">近 30 天</span>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="fl">🏭 供應廠商（商品）</div>
+        <div class="tag-wrap" id="f-sups"></div>
+      </div>
+      <div class="fg">
+        <div class="fl">🏷 商品類型</div>
+        <div class="tag-wrap" id="f-cats">
+          <span class="tag active" data-cat="all" onclick="toggleCat(this,'all')">全部</span>
+          <span class="tag" data-cat="paid" onclick="toggleCat(this,'paid')">付費商品</span>
+          <span class="tag" data-cat="free" onclick="toggleCat(this,'free')">贈品</span>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="fl">💰 售價區間 (NT$)</div>
+        <div class="fr"><input type="number" id="f-pmin" placeholder="最低" oninput="applyFilters()"><span class="fs">～</span><input type="number" id="f-pmax" placeholder="最高" oninput="applyFilters()"></div>
+        <div class="tag-wrap">
+          <span class="tag" onclick="setPP(0,100)">$100↓</span>
+          <span class="tag" onclick="setPP(100,500)">$100–500</span>
+          <span class="tag" onclick="setPP(500,1000)">$500–1K</span>
+          <span class="tag" onclick="setPP(1000,9999)">$1K↑</span>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="fl">📦 單品銷售件數</div>
+        <div class="fr"><input type="number" id="f-qmin" placeholder="最少" oninput="applyFilters()"><span class="fs">～</span><input type="number" id="f-qmax" placeholder="最多" oninput="applyFilters()"></div>
+        <div class="tag-wrap">
+          <span class="tag" onclick="setQP(1,5)">1–5件</span>
+          <span class="tag" onclick="setQP(5,20)">5–20件</span>
+          <span class="tag" onclick="setQP(20,9999)">20+件</span>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="fl">💵 單品銷售額 (NT$)</div>
+        <div class="fr"><input type="number" id="f-rmin" placeholder="最低" oninput="applyFilters()"><span class="fs">～</span><input type="number" id="f-rmax" placeholder="最高" oninput="applyFilters()"></div>
+        <div class="tag-wrap">
+          <span class="tag" onclick="setRP(0,500)">$500↓</span>
+          <span class="tag" onclick="setRP(500,2000)">$500–2K</span>
+          <span class="tag" onclick="setRP(2000,10000)">$2K–10K</span>
+          <span class="tag" onclick="setRP(10000,999999)">$10K↑</span>
+        </div>
+      </div>
+    </div>
+    <div class="filter-actions">
+      <button class="btn" onclick="resetFilters()">重置篩選</button>
+      <button class="btn btn-p" onclick="applyFilters()">套用 →</button>
+    </div>
+  </div>
+  <div class="active-filters" id="active-filters"></div>
+</div>
+
+
+
+
+<!-- Ranking Panel -->
+<div class="rk-panel" id="rk-panel">
+  <div class="rk-header">
+    <div class="rk-title">🏆 銷售排行榜 <span style="font-size:10px;color:var(--text3);font-weight:400">已排除贈品 / 滿額贈</span></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="rk-top-selector">
+        <label>顯示前</label>
+        <select id="rk-top-n" onchange="renderRankings()">
+          <option value="10">10 名</option>
+          <option value="20">20 名</option>
+          <option value="30">30 名</option>
+          <option value="50">50 名</option>
+          <option value="999">全部</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="rk-tabs">
+    <div class="rk-tab active" onclick="rkTab(this,'rk-product-rev')">🥇 商品 · 銷售額</div>
+    <div class="rk-tab" onclick="rkTab(this,'rk-product-qty')">📦 商品 · 銷售件數</div>
+    <div class="rk-tab" onclick="rkTab(this,'rk-supplier-rev')">🏭 廠商 · 銷售額</div>
+    <div class="rk-tab" onclick="rkTab(this,'rk-supplier-qty')">🏭 廠商 · 銷售件數</div>
+  </div>
+  <div id="rk-product-rev" class="rk-section active"></div>
+  <div id="rk-product-qty" class="rk-section"></div>
+  <div id="rk-supplier-rev" class="rk-section"></div>
+  <div id="rk-supplier-qty" class="rk-section"></div>
+</div>
+
+<div class="main" id="main">
+  <div class="empty">
+    <div class="empty-icon">📋</div>
+    <div class="empty-title">請上傳報表開始分析</div>
+    <div class="empty-sub">商品銷售總表 → 商品分析<br>加上票房日報 → 總體營收儀表板<br>加上訂單彙總 → 客單價與付款分析</div>
+  </div>
+</div>
+
+<!-- Visitor Input Panel -->
+<div style="margin:0 28px;padding:20px 0 8px;border-top:2px dashed var(--border);display:flex;align-items:center;gap:8px"><span style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px">每日來客數輸入</span><span style="font-size:10px;color:var(--text3)">· 儲存於本機，可匯出備份</span></div>
+<div class="vi-panel" id="vi-panel">
+  <div class="vi-header">
+    <div class="vi-header-left">
+      <span style="font-size:16px">👣</span>
+      來客數 & 提袋率追蹤
+    </div>
+    <div class="vi-header-right">
+      <button class="vi-btn vi-btn-export" onclick="exportVisitorCSV()">⬇ 匯出 CSV</button>
+      <div class="vi-btn vi-btn-import">
+        ⬆ 匯入 CSV
+        <input type="file" accept=".csv" onchange="importVisitorCSV(this)">
+      </div>
+    </div>
+  </div>
+  <div class="vi-body">
+    <div class="vi-input-row">
+      <div class="vi-field">
+        <label>日期</label>
+        <input type="date" id="vi-date">
+      </div>
+      <div class="vi-field">
+        <label>進入商品區人數</label>
+        <input type="number" id="vi-visitors" placeholder="例：320" min="0">
+      </div>
+      <div class="vi-field">
+        <label>備註（選填）</label>
+        <textarea id="vi-note" placeholder="天氣、活動、特殊狀況…"></textarea>
+      </div>
+      <button class="vi-btn vi-btn-save" onclick="saveVisitorEntry()">儲存</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="vi-stats-row" id="vi-stats-row">
+      <div class="vi-stat"><div class="vi-stat-label">累計來客數</div><div class="vi-stat-val" id="vi-total-visitors">─</div><div class="vi-stat-note">有紀錄天數</div></div>
+      <div class="vi-stat"><div class="vi-stat-label">平均日來客</div><div class="vi-stat-val" id="vi-avg-visitors">─</div><div class="vi-stat-note">每日平均</div></div>
+      <div class="vi-stat"><div class="vi-stat-label">累計提袋率</div><div class="vi-stat-val green" id="vi-overall-rate">─</div><div class="vi-stat-note">交易筆 ÷ 來客數</div></div>
+      <div class="vi-stat"><div class="vi-stat-label">最高單日提袋率</div><div class="vi-stat-val amber" id="vi-max-rate">─</div><div class="vi-stat-note" id="vi-max-rate-date"></div></div>
+      <div class="vi-stat"><div class="vi-stat-label">最低單日提袋率</div><div class="vi-stat-val" id="vi-min-rate" style="color:var(--accent)">─</div><div class="vi-stat-note" id="vi-min-rate-date"></div></div>
+    </div>
+
+    <!-- Mini charts -->
+    <div class="vi-chart-row">
+      <div class="chart-card" style="padding:12px">
+        <div class="ct">每日提袋率趨勢</div>
+        <div class="cs">交易筆數 ÷ 來客數</div>
+        <div class="cw" style="height:150px"><canvas id="vi-rate-chart" role="img" aria-label="提袋率趨勢">提袋率</canvas></div>
+      </div>
+      <div class="chart-card" style="padding:12px">
+        <div class="ct">每日來客數 vs 交易筆數</div>
+        <div class="cs">對比實際轉化落差</div>
+        <div class="cw" style="height:150px"><canvas id="vi-compare-chart" role="img" aria-label="來客vs交易">來客vs交易</canvas></div>
+      </div>
+    </div>
+
+    <!-- History table -->
+    <div class="vi-table-wrap">
+      <div class="vi-table-header">
+        <div class="vi-table-title">每日來客紀錄</div>
+        <span style="font-size:11px;color:var(--text3)" id="vi-record-count"></span>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr>
+            <th>日期</th>
+            <th style="text-align:right">來客數</th>
+            <th style="text-align:right">交易筆數</th>
+            <th style="text-align:right">提袋率</th>
+            <th style="text-align:right">當日營收</th>
+            <th style="text-align:right">客單價</th>
+            <th>備註</th>
+            <th></th>
+          </tr></thead>
+          <tbody id="vi-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="vmr-toast"></div>
+
+<script>
+// ═══════════════════════════
+// TOAST
+// ═══════════════════════════
+let _toastTimer=null;
+function toast(msg,type='ok',ms=3000){
+  const el=document.getElementById('vmr-toast');
+  if(!el)return;
+  el.textContent=msg;el.className='toast '+type;
+  requestAnimationFrame(()=>el.classList.add('show'));
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>el.classList.remove('show'),ms);
+}
+
+// ═══════════════════════════
+// STATE
+// ═══════════════════════════
+let salesDays={},ticketDays={},orderDays={};
+let filters={dateStart:'',dateEnd:'',suppliers:[],catMode:'all',priceMin:'',priceMax:'',qtyMin:'',qtyMax:'',revMin:'',revMax:''};
+let tSort={col:'revenue',dir:'desc'},tFilter='',tPage=1;
+const PG=20;
+let charts={},filteredRows=[],tableRows=[],totalRev=0,_lastRdParams=null;
+
+// ═══════════════════════════
+// PASSWORD GATE
+// ═══════════════════════════
+const _PW='42956569';
+let _pwOk=false,_pwPending=null;
+function requirePw(cb){
+  if(_pwOk){cb();return;}
+  _pwPending=cb;
+  document.getElementById('pw-overlay').classList.add('open');
+  document.getElementById('pw-err').style.display='none';
+  document.getElementById('pw-input').value='';
+  setTimeout(()=>document.getElementById('pw-input').focus(),80);
+}
+function _pwSubmit(){
+  if(document.getElementById('pw-input').value===_PW){
+    _pwOk=true;
+    document.getElementById('pw-overlay').classList.remove('open');
+    if(_pwPending){const cb=_pwPending;_pwPending=null;cb();}
+  }else{
+    document.getElementById('pw-err').style.display='block';
+    document.getElementById('pw-input').value='';
+    document.getElementById('pw-input').focus();
+  }
+}
+function _pwClose(){
+  document.getElementById('pw-overlay').classList.remove('open');
+  _pwPending=null;
+}
+window._pwSubmit=_pwSubmit;
+window._pwClose=_pwClose;
+
+// ═══════════════════════════
+// FIREBASE CONFIG
+// ═══════════════════════════
+// 請將下方 URL 換成你的 Firebase Realtime Database URL（格式：https://xxxxx-default-rtdb.firebaseio.com）
+const FB_URL = 'https://vmr-10th-default-rtdb.asia-southeast1.firebasedatabase.app';
+
+// In-memory caches (synced with Firebase)
+let _gachaCache = [];
+let _visitorCache = [];
+
+async function fbGet(path) {
+  const r = await fetch(FB_URL + path + '.json?t=' + Date.now());
+  if (!r.ok) throw new Error('Firebase GET failed: ' + r.status);
+  return r.json();
+}
+async function fbPut(path, data) {
+  const r = await fetch(FB_URL + path + '.json', {
+    method: 'PUT', body: JSON.stringify(data),
+    headers: {'Content-Type': 'application/json'}
+  });
+  if (!r.ok) throw new Error('Firebase PUT failed: ' + r.status);
+}
+// Firebase stores arrays as {0:...,1:...} — convert back to sorted array
+function _fbToArr(v) {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.filter(Boolean);
+  return Object.values(v).filter(Boolean).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+}
+
+function saveStore(type) {
+  if (!FB_URL) return;
+  const map = {sales: salesDays, ticket: ticketDays, order: orderDays};
+  fbPut('/' + type + 'Days', map[type] || {}).catch(e => {
+    console.warn('vmr firebase save failed', e);
+    toast('雲端儲存失敗，請檢查網路', 'err', 4000);
+  });
+}
+
+const COLORS=['#c94a2a','#2a6b4a','#b87020','#5a3a8c','#2455a4','#73726c','#d85a30','#1d9e75'];
+const BADGES=['b0','b1','b2','b3','b4','b5'];
+let supMap={},supIdx=0;
+function bdg(s){if(!supMap[s])supMap[s]=BADGES[supIdx++%BADGES.length];return supMap[s];}
+function fmt(n){return Number(n).toLocaleString('zh-TW');}
+function pct(a,b){return b>0?(a/b*100).toFixed(1)+'%':'─';}
+
+// ═══════════════════════════
+// UPLOAD WIRING
+// ═══════════════════════════
+['sales','ticket','order'].forEach(type=>{
+  const zone=document.getElementById('uz-'+type);
+  const inp=document.getElementById('fi-'+type);
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('dragover')});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('dragover'));
+  zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('dragover');handleFiles(e.dataTransfer.files,type)});
+  inp.addEventListener('change',e=>handleFiles(e.target.files,type));
+});
+
+async function handleFiles(files,type){
+  requirePw(async()=>{
+    const zone=document.getElementById('uz-'+type);
+    if(zone)zone.classList.add('loading');
+    let ok=0,fail=0;
+    for(const f of files){
+      try{
+        if(type==='sales') await parseSalesFile(f);
+        else if(type==='ticket') await parseTicketFile(f);
+        else await parseOrderFile(f);
+        ok++;
+      }catch(e){
+        console.error('parse failed',f.name,e);
+        fail++;
+        toast('解析失敗：'+f.name.slice(0,30),'err',5000);
+      }
+    }
+    if(zone)zone.classList.remove('loading');
+    if(ok>0)toast(`已載入 ${ok} 個報表`+(fail>0?`，${fail} 個失敗`:''),'ok');
+    afterLoad();
+  });
+}
+
+function afterLoad(){
+  const hasSales=sortedDates('sales').length>0;
+  const hasTicket=sortedDates('ticket').length>0;
+  const hasOrder=sortedDates('order').length>0;
+  if(!hasSales&&!hasTicket&&!hasOrder) return;
+  document.getElementById('filter-panel').style.display='block';
+  renderChips();
+  rebuildSupTags();
+  const allDates=[...new Set([...sortedDates('sales'),...sortedDates('ticket'),...sortedDates('order')])].sort();
+  initDateBounds(allDates);
+  updateMatchIndicator();
+  applyFilters();
+}
+
+// ─── PARSERS ───
+async function parseSalesFile(file){
+  return new Promise(res=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      const wb=XLSX.read(e.target.result,{type:'array',cellDates:true});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const raw=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+      const dk=extractDate(file.name,raw);
+      let hi=-1;
+      for(let i=0;i<raw.length;i++){if(raw[i].includes('廠商')&&raw[i].includes('SKU')){hi=i;break;}}
+      if(hi===-1){res();return;}
+      const rows=[];
+      for(let i=hi+1;i<raw.length;i++){
+        const row=raw[i];
+        if(!row[0]&&!row[2]) continue;
+        if(String(row[4]).includes('總計')||String(row[0]).includes('總計')) continue;
+        const sku=String(row[2]||'').trim();
+        const name=String(row[4]||'').trim().replace(/ - $/,'').replace(/ - ([^ ].+)$/,' ($1)');
+        if(!sku&&!name) continue;
+        const qty=parseFloat(row[6])||0,ret=parseFloat(row[7])||0,net=parseFloat(row[8])||qty-ret;
+        const revenue=parseFloat(row[9])||0,price=parseFloat(row[5])||0;
+        rows.push({supplier:String(row[0]||'').trim()||'其他',sku,name,price,qty,ret,net,revenue,date:dk});
+      }
+      salesDays[dk]={rows,totalRevenue:rows.reduce((s,r)=>s+r.revenue,0),totalQty:rows.reduce((s,r)=>s+r.net,0)};
+      saveStore('sales');
+      document.getElementById('uz-sales').classList.add('has-data');
+      res();
+    };
+    r.readAsArrayBuffer(file);
+  });
+}
+
+async function parseTicketFile(file){
+  return new Promise(res=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      const wb=XLSX.read(e.target.result,{type:'array',cellDates:true});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const raw=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+      const dk=extractDate(file.name,raw);
+      // Find header: SKU / 商品名稱 / 售價 / 淨銷售數量
+      let hi=-1;
+      for(let i=0;i<raw.length;i++){
+        const r2=raw[i];
+        if((r2.includes('SKU')||r2.includes('商品名稱'))&&r2.includes('售價')){hi=i;break;}
+      }
+      // fallback: look for 票券 in data
+      if(hi===-1){
+        for(let i=0;i<raw.length;i++){
+          if(raw[i].some(c=>String(c).includes('票券')||String(c).includes('全票')||String(c).includes('雙人票'))){
+            // treat previous row as header or infer
+            hi=i-1; break;
+          }
+        }
+      }
+      if(hi<0) hi=1; // best guess: row 1 is header
+
+      const headers=raw[hi]||[];
+      // Try to identify columns by header or by position
+      // Format: 廠商名稱 SKU 產品廠商編號 商品名稱 售價 淨銷售數量 小計
+      const tickets=[];
+      let totalTickets=0,totalTicketRev=0;
+      for(let i=hi+1;i<raw.length;i++){
+        const row=raw[i];
+        // detect total row
+        if(String(row[3]||row[4]||'').includes('總計')) continue;
+        const name=String(row[3]||row[4]||'').trim();
+        if(!name||name==='總計') continue;
+        const price=parseFloat(row[4])||parseFloat(row[5])||0;
+        const qty=parseInt(row[5])||parseInt(row[6])||0;
+        const subtotal=parseFloat(row[6])||parseFloat(row[7])||price*qty;
+        if(!name||(!qty&&!subtotal)) continue;
+        tickets.push({name,price,qty,subtotal});
+        totalTickets+=qty;
+        totalTicketRev+=subtotal;
+      }
+      ticketDays[dk]={tickets,totalTickets,totalTicketRev,date:dk};
+      saveStore('ticket');
+      document.getElementById('uz-ticket').classList.add('has-data');
+      res();
+    };
+    r.readAsArrayBuffer(file);
+  });
+}
+
+async function parseOrderFile(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onerror=()=>rej(new Error('讀取檔案失敗'));
+    r.onload=e=>{
+      try{
+        const wb=XLSX.read(e.target.result,{type:'array',cellDates:true});
+        const ws=wb.Sheets[wb.SheetNames[0]];
+        const raw=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+        const dk=extractDate(file.name,raw);
+        let hi=-1;
+        for(let i=0;i<raw.length;i++){if(raw[i].includes('訂單編號')){hi=i;break;}}
+        if(hi===-1){rej(new Error('找不到「訂單編號」欄位，請確認為訂單彙總表'));return;}
+        const headers=raw[hi];
+        const col=name=>headers.indexOf(name);
+        const orders=[];
+        for(let i=hi+1;i<raw.length;i++){
+          const row=raw[i];
+          const orderNo=String(row[col('訂單編號')]||'').trim();
+          if(!orderNo||orderNo==='總計') continue;
+          const total=parseFloat(row[col('合計')])||0;
+          if(!total) continue;
+          const cash=parseFloat(row[col('現金(含多付款方式(現金))')])||0;
+          const credit=(parseFloat(row[col('多付款方式_信用卡')])||0)+(parseFloat(row[col('刷卡')])||0);
+          const linepay=parseFloat(row[col('多付款方式_LINEPAY')])||0;
+          orders.push({orderNo,customer:String(row[col('顧客名稱')]||'').trim(),total,cash,credit,linepay,date:dk});
+        }
+        const totalOrders=orders.filter(o=>o.total>0).length,totalRevenue=orders.reduce((s,o)=>s+o.total,0);
+        orderDays[dk]={orders,totalOrders,totalRevenue,cash:orders.reduce((s,o)=>s+o.cash,0),credit:orders.reduce((s,o)=>s+o.credit,0),linepay:orders.reduce((s,o)=>s+o.linepay,0)};
+        saveStore('order');
+        document.getElementById('uz-order').classList.add('has-data');
+        res();
+      }catch(err){rej(err);}
+    };
+    r.readAsArrayBuffer(file);
+  });
+}
+
+function extractDate(fname,raw){
+  const m=fname.match(/(\d{4}-\d{2}-\d{2})/);if(m)return m[1];
+  for(const row of raw)for(const c of row){const s=String(c);const mm=s.match(/(\d{4}-\d{2}-\d{2})/);if(mm)return mm[1];}
+  return fname.replace(/\.xlsx?/,'');
+}
+
+function sortedDates(type){
+  const src={sales:salesDays,ticket:ticketDays,order:orderDays}[type];
+  return Object.keys(src).sort();
+}
+
+function renderChips(){
+  const render=(id,dates,cls)=>{
+    document.getElementById(id).innerHTML=dates.map(d=>`<div class="chip ${cls}">${d} <span class="chip-x" onclick="removeDay('${d}','${cls.charAt(1)==='1'?'sales':cls.charAt(1)==='3'?'ticket':'order'}')">×</span></div>`).join('');
+  };
+  render('chips-sales',sortedDates('sales'),'c1');
+  render('chips-ticket',sortedDates('ticket'),'c3');
+  render('chips-order',sortedDates('order'),'c2');
+}
+
+function updateMatchIndicator(){
+  const sds=sortedDates('sales'),ods=sortedDates('order'),el=document.getElementById('match-indicator');
+  if(!ods.length){el.innerHTML='';return;}
+  const matched=sds.filter(d=>ods.includes(d));
+  const unmatched=ods.filter(d=>!sds.includes(d));
+  el.innerHTML=unmatched.length===0?
+    `<div class="match-indicator match-ok">✓ ${matched.length} 天訂單與銷售已對齊</div>`:
+    `<div class="match-indicator match-warn">⚠ ${matched.length} 天已對齊，${unmatched.length} 天訂單無對應銷售報表</div>`;
+}
+
+function removeDay(d,type){
+  requirePw(()=>{
+    if(type==='sales'){delete salesDays[d];saveStore('sales');if(!sortedDates('sales').length)document.getElementById('uz-sales').classList.remove('has-data');}
+    else if(type==='ticket'){delete ticketDays[d];saveStore('ticket');if(!sortedDates('ticket').length)document.getElementById('uz-ticket').classList.remove('has-data');}
+    else{delete orderDays[d];saveStore('order');if(!sortedDates('order').length)document.getElementById('uz-order').classList.remove('has-data');}
+    const allDates=[...new Set([...sortedDates('sales'),...sortedDates('ticket'),...sortedDates('order')])].sort();
+    if(!allDates.length){document.getElementById('filter-panel').style.display='none';document.getElementById('main').innerHTML=`<div class="empty"><div class="empty-icon">📋</div><div class="empty-title">請上傳報表開始分析</div></div>`;renderChips();updateMatchIndicator();return;}
+    renderChips();rebuildSupTags();updateMatchIndicator();applyFilters();
+  });
+}
+window.removeDay=removeDay;
+
+// ═══════════════════════════
+// FILTER PANEL
+// ═══════════════════════════
+function toggleFilter(){const b=document.getElementById('filter-body'),a=document.getElementById('farrow');const o=b.classList.toggle('open');a.classList.toggle('open',o);}
+function rebuildSupTags(){
+  const all=[...new Set(Object.values(salesDays).flatMap(d=>{const rows=Array.isArray(d.rows)?d.rows:Object.values(d.rows||{});return rows.map(r=>r.supplier);}))].sort();
+  const w=document.getElementById('f-sups');
+  w.innerHTML=[['all','全部'],...all.map(s=>[s,s])].map(([v,l])=>
+    `<span class="tag ${filters.suppliers.length===0&&v==='all'?'active':filters.suppliers.includes(v)?'active':''}" data-sup="${v}" onclick="toggleSup(this,'${v}')">${l}</span>`
+  ).join('');
+}
+function toggleSup(el,val){
+  const tags=document.querySelectorAll('#f-sups .tag');
+  if(val==='all'){filters.suppliers=[];tags.forEach(t=>t.classList.toggle('active',t.dataset.sup==='all'));}
+  else{if(filters.suppliers.includes(val))filters.suppliers=filters.suppliers.filter(s=>s!==val);else filters.suppliers.push(val);tags.forEach(t=>{if(t.dataset.sup==='all')t.classList.toggle('active',filters.suppliers.length===0);else t.classList.toggle('active',filters.suppliers.includes(t.dataset.sup));});}
+  applyFilters();
+}
+window.toggleSup=toggleSup;
+function toggleCat(el,val){filters.catMode=val;document.querySelectorAll('#f-cats .tag').forEach(t=>t.classList.toggle('active',t.dataset.cat===val));applyFilters();}
+window.toggleCat=toggleCat;
+function initDateBounds(dates){const ds=document.getElementById('f-ds'),de=document.getElementById('f-de');if(!ds.value)ds.value=dates[0];if(!de.value)de.value=dates[dates.length-1];filters.dateStart=ds.value;filters.dateEnd=de.value;}
+function setDP(p){
+  const allDates=[...new Set([...sortedDates('sales'),...sortedDates('ticket'),...sortedDates('order')])].sort();if(!allDates.length)return;
+  const last=allDates[allDates.length-1],ld=new Date(last);let start=allDates[0];
+  if(p==='last7'){const d=new Date(ld);d.setDate(d.getDate()-6);start=d.toISOString().slice(0,10);}
+  else if(p==='last14'){const d=new Date(ld);d.setDate(d.getDate()-13);start=d.toISOString().slice(0,10);}
+  else if(p==='last30'){const d=new Date(ld);d.setDate(d.getDate()-29);start=d.toISOString().slice(0,10);}
+  document.getElementById('f-ds').value=start;document.getElementById('f-de').value=last;filters.dateStart=start;filters.dateEnd=last;applyFilters();
+}
+function setPP(a,b){document.getElementById('f-pmin').value=a;document.getElementById('f-pmax').value=b;applyFilters();}
+function setQP(a,b){document.getElementById('f-qmin').value=a;document.getElementById('f-qmax').value=b;applyFilters();}
+function setRP(a,b){document.getElementById('f-rmin').value=a;document.getElementById('f-rmax').value=b;applyFilters();}
+window.setDP=setDP;window.setPP=setPP;window.setQP=setQP;window.setRP=setRP;
+function resetFilters(){
+  filters={dateStart:'',dateEnd:'',suppliers:[],catMode:'all',priceMin:'',priceMax:'',qtyMin:'',qtyMax:'',revMin:'',revMax:''};
+  ['f-ds','f-de','f-pmin','f-pmax','f-qmin','f-qmax','f-rmin','f-rmax'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('#f-cats .tag').forEach(t=>t.classList.toggle('active',t.dataset.cat==='all'));
+  document.querySelectorAll('#f-sups .tag').forEach(t=>t.classList.toggle('active',t.dataset.sup==='all'));
+  const allDates=[...new Set([...sortedDates('sales'),...sortedDates('ticket'),...sortedDates('order')])].sort();if(allDates.length)initDateBounds(allDates);
+  applyFilters();
+}
+window.resetFilters=resetFilters;
+
+// ═══════════════════════════
+// APPLY FILTERS
+// ═══════════════════════════
+function applyFilters(){
+  filters.dateStart=document.getElementById('f-ds').value||'';
+  filters.dateEnd=document.getElementById('f-de').value||'';
+  filters.priceMin=document.getElementById('f-pmin').value;
+  filters.priceMax=document.getElementById('f-pmax').value;
+  filters.qtyMin=document.getElementById('f-qmin').value;
+  filters.qtyMax=document.getElementById('f-qmax').value;
+  filters.revMin=document.getElementById('f-rmin').value;
+  filters.revMax=document.getElementById('f-rmax').value;
+
+  const filterDate=d=>{if(filters.dateStart&&d<filters.dateStart)return false;if(filters.dateEnd&&d>filters.dateEnd)return false;return true;};
+  const sDates=sortedDates('sales').filter(filterDate);
+  const tDates=sortedDates('ticket').filter(filterDate);
+  const oDates=sortedDates('order').filter(filterDate);
+  const allDates=[...new Set([...sDates,...tDates,...oDates])].sort();
+
+  // Sales rows
+  let rows=[];
+  for(const d of sDates){const dr=salesDays[d];const dr2=Array.isArray(dr.rows)?dr.rows:Object.values(dr.rows||{});rows=rows.concat(dr2.map(r=>({...r,_date:d})));}
+  if(filters.suppliers.length>0)rows=rows.filter(r=>filters.suppliers.includes(r.supplier));
+  if(filters.catMode==='paid')rows=rows.filter(r=>r.price>0);
+  else if(filters.catMode==='free')rows=rows.filter(r=>r.price===0);
+  if(filters.priceMin!='')rows=rows.filter(r=>r.price>=+filters.priceMin);
+  if(filters.priceMax!='')rows=rows.filter(r=>r.price<=+filters.priceMax);
+  if(filters.qtyMin!='')rows=rows.filter(r=>r.net>=+filters.qtyMin);
+  if(filters.qtyMax!='')rows=rows.filter(r=>r.net<=+filters.qtyMax);
+  if(filters.revMin!='')rows=rows.filter(r=>r.revenue>=+filters.revMin);
+  if(filters.revMax!='')rows=rows.filter(r=>r.revenue<=+filters.revMax);
+  const merged={};
+  for(const r of rows){const key=r.sku||r.name;if(!merged[key])merged[key]={...r,revenue:0,net:0,qty:0};merged[key].revenue+=r.revenue;merged[key].net+=r.net;merged[key].qty+=r.qty;}
+  const allRows=Object.values(merged);
+
+  // Ticket agg
+  const hasT=tDates.length>0;
+  const ticketAgg=hasT?{
+    totalTickets:tDates.reduce((s,d)=>s+ticketDays[d].totalTickets,0),
+    totalTicketRev:tDates.reduce((s,d)=>s+ticketDays[d].totalTicketRev,0),
+    byType:{},dayRevs:tDates.map(d=>({date:d,rev:ticketDays[d].totalTicketRev,qty:ticketDays[d].totalTickets}))
+  }:null;
+  if(hasT){
+    for(const d of tDates){for(const t of ticketDays[d].tickets){if(!ticketAgg.byType[t.name])ticketAgg.byType[t.name]={qty:0,rev:0,price:t.price};ticketAgg.byType[t.name].qty+=t.qty;ticketAgg.byType[t.name].rev+=t.subtotal;}}
+  }
+
+  // Order agg
+  const hasO=oDates.length>0;
+  const orderAgg=hasO?{
+    totalOrders:oDates.reduce((s,d)=>s+orderDays[d].totalOrders,0),
+    totalRevenue:oDates.reduce((s,d)=>s+orderDays[d].totalRevenue,0),
+    cash:oDates.reduce((s,d)=>s+orderDays[d].cash,0),
+    credit:oDates.reduce((s,d)=>s+orderDays[d].credit,0),
+    linepay:oDates.reduce((s,d)=>s+orderDays[d].linepay,0),
+    allOrders:oDates.flatMap(d=>orderDays[d].orders),
+    coverDays:oDates.length
+  }:null;
+
+  updateActiveFilterPills(allDates.length);
+  renderDashboard(sDates,tDates,allDates,allRows,rows,ticketAgg,orderAgg,oDates);
+  initTable(allRows);
+  const allDatesAll=[...new Set([...sortedDates('sales'),...sortedDates('ticket'),...sortedDates('order')])].sort();
+  document.getElementById('hd-meta').textContent=allDatesAll.length===0?'尚未載入數據':allDatesAll.length===1?`${allDatesAll[0]} 單日`:`${allDatesAll[0]} ～ ${allDatesAll[allDatesAll.length-1]} · ${allDatesAll.length} 天`;
+}
+window.applyFilters=applyFilters;
+
+function updateActiveFilterPills(datesCount){
+  const n=[filters.suppliers.length>0,filters.catMode!=='all',filters.priceMin||filters.priceMax,filters.qtyMin||filters.qtyMax,filters.revMin||filters.revMax].filter(Boolean).length;
+  const b=document.getElementById('fbadge');b.style.display=n>0?'inline':'none';b.textContent=n;
+  const wrap=document.getElementById('active-filters');
+  const pills=[];
+  const ds=document.getElementById('f-ds').value,de=document.getElementById('f-de').value;
+  if(ds||de)pills.push(`📅 ${ds||'…'}～${de||'…'} (${datesCount}天)`);
+  if(filters.suppliers.length>0)pills.push(`🏭 ${filters.suppliers.join('、')}`);
+  if(filters.catMode!=='all')pills.push(`🏷 ${filters.catMode==='paid'?'付費商品':'贈品'}`);
+  if(filters.priceMin||filters.priceMax)pills.push(`💰 NT$${filters.priceMin||0}～${filters.priceMax||'∞'}`);
+  if(filters.qtyMin||filters.qtyMax)pills.push(`📦 ${filters.qtyMin||0}～${filters.qtyMax||'∞'}件`);
+  if(filters.revMin||filters.revMax)pills.push(`💵 NT$${filters.revMin||0}～${filters.revMax||'∞'}`);
+  if(!pills.length){wrap.style.display='none';return;}
+  wrap.style.display='flex';
+  wrap.innerHTML=pills.map(p=>`<span class="af-pill">${p}</span>`).join('');
+}
+
+// ═══════════════════════════
+// RENDER DASHBOARD
+// ═══════════════════════════
+function renderDashboard(sDates,tDates,allDates,allRows,rawRows,ticketAgg,orderAgg,oDates){
+  const mc=document.getElementById('main');
+  const paidRows=allRows.filter(r=>r.revenue>0);
+  const salesRev=paidRows.reduce((s,r)=>s+r.revenue,0);
+  const salesQty=allRows.reduce((s,r)=>s+r.net,0);
+  const ticketRev=ticketAgg?ticketAgg.totalTicketRev:0;
+  const ticketQty=ticketAgg?ticketAgg.totalTickets:0;
+  // 扭蛋：依日期篩選範圍計算，不限定要有對應訂單報表
+  const _allGachaData=loadGachaData();
+  const _gbd=_allGachaData.reduce(function(o,g){o[g.date]=g.revenue;return o;},{});
+  const gachaRev=_allGachaData
+    .filter(g=>(!filters.dateStart||g.date>=filters.dateStart)&&(!filters.dateEnd||g.date<=filters.dateEnd))
+    .reduce((s,g)=>s+g.revenue,0);
+  const orderRevTotal=orderAgg?orderAgg.totalRevenue:0;
+  const totalRevAll=orderAgg?(orderRevTotal+gachaRev):(salesRev+ticketRev+gachaRev);
+  const hasS=sDates.length>0,hasT=tDates.length>0,hasO=!!orderAgg;
+  const txCount=hasO?orderAgg.totalOrders:null;
+  const aov=hasO&&txCount>0?Math.round(orderAgg.totalRevenue/txCount):null;
+  totalRev=salesRev;
+  // 每日明細 Modal：合併所有有資料的日期（含純訂單日）
+  const _allBkDates=[...new Set([...allDates,...oDates])].sort();
+  _dayBreakdown=_allBkDates.map(d=>{
+    const oRev=orderDays[d]?orderDays[d].totalRevenue:0;
+    const tRev=ticketDays[d]?ticketDays[d].totalTicketRev:0;
+    const sRev=salesDays[d]?salesDays[d].totalRevenue:0;
+    const gRev=_gbd[d]||0;
+    const dayTotal=hasO?(oRev+gRev):(sRev+tRev+gRev);
+    return {d,oRev,tRev,sRev,gRev,dayTotal};
+  });
+  // MC 累計：全部上傳資料 + 全部扭蛋，不受日期篩選影響
+  const _mcOrderRev=Object.values(orderDays).reduce((s,d)=>s+d.totalRevenue,0);
+  const _mcSalesRev=Object.values(salesDays).reduce((s,d)=>s+d.totalRevenue,0);
+  const _mcTicketRev=Object.values(ticketDays).reduce((s,d)=>s+d.totalTicketRev,0);
+  const _mcGachaRev=_allGachaData.reduce((s,d)=>s+d.revenue,0);
+  const _mcTotal=hasO?(_mcOrderRev+_mcGachaRev):(_mcSalesRev+_mcTicketRev+_mcGachaRev);
+  updateMissionControl(_mcTotal);
+  renderGachaPanel();
+  renderVisitorPanel();
+
+  // Day trend data (combined)
+  const trendDates=allDates;
+  const trendSales=trendDates.map(d=>salesDays[d]?salesDays[d].totalRevenue:0);
+  const trendTicket=trendDates.map(d=>ticketDays[d]?ticketDays[d].totalTicketRev:0);
+  const trendOrder=trendDates.map(d=>orderDays[d]?orderDays[d].totalRevenue:0);
+
+  // Supplier / Product
+  const bySup={};
+  for(const r of allRows){if(!bySup[r.supplier])bySup[r.supplier]={revenue:0,qty:0};bySup[r.supplier].revenue+=r.revenue;bySup[r.supplier].qty+=r.net;}
+  const supList=Object.entries(bySup).sort((a,b)=>b[1].revenue-a[1].revenue);
+  const topRev=[...paidRows].sort((a,b)=>b.revenue-a.revenue).slice(0,10);
+  const topQty=[...allRows.filter(r=>r.net>0)].sort((a,b)=>b.net-a.net).slice(0,10);
+  // Store for tab redraw
+  _lastRdParams={sDates,tDates,allDates,allRows,ticketAgg,orderAgg,oDates,
+    hasS,hasT,hasO,salesRev,ticketRev,gachaRev,totalRevAll,txCount,aov,
+    trendDates,trendSales,trendTicket,trendOrder,supList,topRev,topQty,paidRows};
+  // Order stats
+  const ordBestDay=hasO?oDates.reduce((b,d)=>orderDays[d].totalRevenue>orderDays[b].totalRevenue?d:b,oDates[0]):null;
+  const ordMaxRev=ordBestDay?orderDays[ordBestDay].totalRevenue:0;
+  const ordMaxTxn=hasO?oDates.reduce((m,d)=>Math.max(m,orderDays[d].totalOrders),0):0;
+  const ordAvgTxn=hasO?Math.round(txCount/oDates.length):0;
+  // Supplier table rows
+  const supTableRows=supList.map(([name,v],i)=>{const sp=salesRev>0?(v.revenue/salesRev*100).toFixed(1):0;const avgP=v.qty>0?Math.round(v.revenue/v.qty):0;return`<tr><td style="padding:6px 10px;color:var(--text3)">${i+1}</td><td style="padding:6px 10px;font-weight:500">${name}</td><td style="padding:6px 10px;text-align:right;font-weight:600;color:var(--accent)">NT$ ${fmt(v.revenue)}</td><td style="padding:6px 10px;text-align:right">${fmt(v.qty)}</td><td style="padding:6px 10px;text-align:right">NT$ ${fmt(avgP)}</td><td style="padding:6px 10px"><div style="display:flex;align-items:center;gap:5px"><div style="flex:1;height:4px;background:var(--surface2);border-radius:2px"><div style="height:100%;width:${sp}%;background:${COLORS[i%COLORS.length]};border-radius:2px"></div></div><span style="font-size:10px;color:var(--text2);min-width:28px">${sp}%</span></div></td></tr>`;}).join('');
+  // Top products table rows
+  const topRevRows=topRev.map((r,i)=>{const sp=salesRev>0?(r.revenue/salesRev*100).toFixed(1):0;return`<tr><td style="padding:6px 10px;color:var(--text3)">${i+1}</td><td style="padding:6px 10px;font-size:11px;color:var(--text2)">${r.supplier}</td><td style="padding:6px 10px;font-weight:500">${r.name}</td><td style="padding:6px 10px;text-align:right">NT$ ${fmt(r.price)}</td><td style="padding:6px 10px;text-align:right">${fmt(r.net)}</td><td style="padding:6px 10px;text-align:right;font-weight:600;color:var(--accent)">NT$ ${fmt(r.revenue)}</td><td style="padding:6px 10px"><div style="display:flex;align-items:center;gap:5px"><div style="flex:1;height:4px;background:var(--surface2);border-radius:2px"><div style="height:100%;width:${sp}%;background:var(--accent);border-radius:2px"></div></div><span style="font-size:10px;color:var(--text2);min-width:28px">${sp}%</span></div></td></tr>`;}).join('');
+  // Price band cards
+  const pBands=[{l:'$0–99',mn:0,mx:99},{l:'$100–499',mn:100,mx:499},{l:'$500–999',mn:500,mx:999},{l:'$1K–4.9K',mn:1000,mx:4999},{l:'$5K+',mn:5000,mx:Infinity}];
+  const bandCards=pBands.map((b,i)=>{const br=allRows.filter(r=>r.price>=b.mn&&r.price<=b.mx);const bRev=br.reduce((s,r)=>s+r.revenue,0);const bQty=br.reduce((s,r)=>s+r.net,0);return`<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid ${COLORS[i]};border-radius:var(--rs);padding:10px;text-align:center"><div style="font-size:11px;font-weight:500;margin-bottom:4px">${b.l}</div><div style="font-size:16px;font-weight:700;color:${COLORS[i]}">${fmt(bQty)}<span style="font-size:10px;color:var(--text3)"> 件</span></div><div style="font-size:11px;color:var(--text2);margin-top:2px">NT$ ${fmt(bRev)}</div><div style="font-size:10px;color:var(--text3)">${br.length} SKU</div></div>`;}).join('');
+
+  mc.innerHTML=`
+  <div class="rev-banner">
+    <div class="rb-item clickable" onclick="showRevModal()" title="點擊查看每日明細"><div class="rb-label">總體營收 <span style="font-size:9px;opacity:.5">▶ 明細</span></div><div class="rb-val accent">NT$ ${fmt(totalRevAll)}</div><div class="rb-note">${allDates.length} 天合計</div></div>
+    <div class="rb-item"><div class="rb-label">${hasO?'訂單結算':'商品銷售'}</div><div class="rb-val">NT$ ${fmt(hasO?orderRevTotal:salesRev)}</div><div class="rb-note">${hasO?pct(orderRevTotal,totalRevAll)+' 佔比':hasS?pct(salesRev,totalRevAll)+' 佔比':'未上傳'}</div></div>
+    <div class="rb-item"><div class="rb-label">票房收入</div><div class="rb-val purple">NT$ ${fmt(ticketRev)}</div><div class="rb-note">${hasT?pct(ticketRev,totalRevAll)+' 佔比':'未上傳'}</div></div>
+    <div class="rb-item"><div class="rb-label">扭蛋收入</div><div class="rb-val" style="color:#fbbf24">NT$ ${fmt(gachaRev)}</div><div class="rb-note">${gachaRev>0?pct(gachaRev,totalRevAll)+' 佔比':'未輸入'}</div></div>
+    <div class="rb-item"><div class="rb-label">日均總收入</div><div class="rb-val blue">NT$ ${fmt(Math.round(totalRevAll/Math.max(allDates.length,1)))}</div><div class="rb-note">商品 + 票房 + 扭蛋</div></div>
+  </div>
+  <div class="dash-tabs">
+    <button class="dtab active" onclick="switchTab('overview')">📊 總覽</button>
+    <button class="dtab" onclick="switchTab('orders')">🧾 訂單分析${hasO?'':' 🔒'}</button>
+    <button class="dtab" onclick="switchTab('products')">📦 商品排行${hasS?'':' 🔒'}</button>
+    <button class="dtab" onclick="switchTab('suppliers')">🏭 廠商 & 類別${hasS?'':' 🔒'}</button>
+    <button class="dtab" onclick="switchTab('tickets')">🎟 票房${hasT?'':' 🔒'}</button>
+  </div>
+  <div class="dpanel active" id="dp-overview">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">商品出貨件數</div><div class="kpi-val">${fmt(salesQty)}</div><div class="kpi-note">淨銷售數量</div></div>
+      <div class="kpi"><div class="kpi-label">售出票數</div><div class="kpi-val">${hasT?fmt(ticketQty):'<span style="opacity:.4">─</span>'}</div><div class="kpi-note">${hasT?'所有票種合計':'未上傳票房報表'}</div></div>
+      <div class="kpi"><div class="kpi-label">商品 SKU 數</div><div class="kpi-val">${paidRows.length}</div><div class="kpi-note">有銷售紀錄</div></div>
+      <div class="kpi ${hasO?'':'locked'}"><div class="kpi-label">交易筆數 ${hasO?'':'🔒'}</div><div class="kpi-val blue">${hasO?fmt(txCount):'─'}</div><div class="kpi-note">${hasO?`${orderAgg.coverDays} 天訂單`:'需上傳訂單報表'}</div></div>
+      <div class="kpi ${hasO?'':'locked'}"><div class="kpi-label">平均客單價 ${hasO?'':'🔒'}</div><div class="kpi-val blue">${hasO?'NT$ '+fmt(aov):'─'}</div><div class="kpi-note">${hasO?'總營收 ÷ 交易筆數':'需上傳訂單報表'}</div>${hasO?`<div class="kpi-sub">件均 NT$ ${fmt(Math.round(salesRev/Math.max(salesQty,1)))}（參考）</div>`:''}</div>
+      <div class="kpi"><div class="kpi-label">供應廠商數</div><div class="kpi-val">${supList.length}</div><div class="kpi-note">本期商品參與</div></div>
+    </div>
+    ${allDates.length>1||hasT||hasO?`
+    <div class="sec">
+      <div class="sec-title">每日趨勢 <span class="sec-tag t1">${hasO?'訂單':'商品'}</span>${hasT?'<span class="sec-tag t2" style="margin-left:3px">票房</span>':''}</div>
+      <div class="chart-card full"><div class="ct">每日營收趨勢</div><div class="cs">${hasO?'訂單結算（篩選期間）':'商品銷售 + 票房收入（篩選期間）'}</div><div class="cw" style="height:200px"><canvas id="trendChart"></canvas></div></div>
+    </div>`:''}
+  </div>
+  <div class="dpanel" id="dp-orders">
+    ${hasO?`
+    <div class="dash-stat-row">
+      <div class="dash-stat"><div class="ds-val">${fmt(txCount)}</div><div class="ds-label">總交易筆數</div></div>
+      <div class="dash-stat"><div class="ds-val">NT$ ${fmt(aov)}</div><div class="ds-label">平均客單價</div></div>
+      <div class="dash-stat"><div class="ds-val">${fmt(ordAvgTxn)}</div><div class="ds-label">日均交易筆數</div></div>
+      <div class="dash-stat"><div class="ds-val">${fmt(ordMaxTxn)}</div><div class="ds-label">單日最高筆數</div></div>
+      <div class="dash-stat"><div class="ds-val">NT$ ${fmt(ordMaxRev)}</div><div class="ds-label">單日最高金額</div></div>
+      <div class="dash-stat"><div class="ds-val" style="font-size:13px">${ordBestDay||'─'}</div><div class="ds-label">最佳銷售日</div></div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card"><div class="ct">每日交易筆數</div><div class="cs">各日訂單量趨勢</div><div class="cw" style="height:180px"><canvas id="txnTrendChart"></canvas></div></div>
+      <div class="chart-card"><div class="ct">每日平均客單價</div><div class="cs">AOV 日別趨勢</div><div class="cw" style="height:180px"><canvas id="aovTrendChart"></canvas></div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">🧾 付款方式分析 <span class="sec-tag t3">訂單</span></div>
+      <div class="chart-grid"><div class="chart-card full" style="grid-column:1/-1"><div class="ct">每日付款方式</div><div class="cs">現金 · 信用卡 · Line Pay 日別分佈</div><div class="cw" style="height:160px"><canvas id="payTrendChart"></canvas></div></div></div>
+      ${renderPaymentSection(orderAgg)}
+    </div>
+    <div class="sec">
+      <div class="sec-title">📋 每日訂單明細 <span class="sec-tag t3">訂單</span></div>
+      <div class="tbl-card" style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:var(--surface2)"><th style="padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)">日期</th><th style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border)">筆數</th><th style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border)">訂單金額</th><th style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border)">客單價</th><th style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border)">現金</th><th style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border)">信用卡</th><th style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border)">Line Pay</th></tr></thead><tbody>${oDates.map((d,i)=>{const od=orderDays[d];const dAov=od.totalOrders>0?Math.round(od.totalRevenue/od.totalOrders):0;return`<tr style="background:${i%2?'var(--surface)':'var(--bg)'}"><td style="padding:5px 10px;font-size:11px;color:var(--text2)">${d}</td><td style="padding:5px 10px;text-align:right">${fmt(od.totalOrders)}</td><td style="padding:5px 10px;text-align:right;font-weight:600">NT$ ${fmt(od.totalRevenue)}</td><td style="padding:5px 10px;text-align:right;font-size:11px;color:var(--blue)">NT$ ${fmt(dAov)}</td><td style="padding:5px 10px;text-align:right;font-size:11px">NT$ ${fmt(od.cash)}</td><td style="padding:5px 10px;text-align:right;font-size:11px">NT$ ${fmt(od.credit)}</td><td style="padding:5px 10px;text-align:right;font-size:11px">NT$ ${fmt(od.linepay)}</td></tr>`;}).join('')}</tbody><tfoot><tr style="background:var(--surface2);font-weight:700"><td style="padding:6px 10px;border-top:1px solid var(--border)">合計</td><td style="padding:6px 10px;text-align:right;border-top:1px solid var(--border)">${fmt(orderAgg.totalOrders)}</td><td style="padding:6px 10px;text-align:right;border-top:1px solid var(--border);color:var(--accent)">NT$ ${fmt(orderAgg.totalRevenue)}</td><td style="padding:6px 10px;text-align:right;border-top:1px solid var(--border);color:var(--blue)">NT$ ${fmt(aov)}</td><td style="padding:6px 10px;text-align:right;border-top:1px solid var(--border)">${fmt(orderAgg.cash)}</td><td style="padding:6px 10px;text-align:right;border-top:1px solid var(--border)">${fmt(orderAgg.credit)}</td><td style="padding:6px 10px;text-align:right;border-top:1px solid var(--border)">${fmt(orderAgg.linepay)}</td></tr></tfoot></table></div>
+    </div>`:`<div class="unlock-big"><div class="ub-icon">🧾</div><div class="ub-title">上傳訂單彙總報表以解鎖</div><div class="ub-sub">付款方式分析 · 客單金額分佈 · 每日交易趨勢 · 平均客單價追蹤</div></div>`}
+  </div>
+  <div class="dpanel" id="dp-products">
+    ${hasS?`
+    <div class="sec">
+      <div class="sec-title">🥇 商品銷售排行 · 銷售額 <span class="sec-tag t1">商品</span></div>
+      <div class="chart-card full"><div class="ct">Top 10 商品（銷售額）</div><div class="cw" style="height:240px"><canvas id="topRevChart"></canvas></div></div>
+      <div class="tbl-card" style="overflow-x:auto;margin-top:12px"><table class="sup-table"><thead><tr><th style="padding:7px 10px">#</th><th>廠商</th><th>商品名稱</th><th style="text-align:right">售價</th><th style="text-align:right">件數</th><th style="text-align:right">銷售額</th><th>佔比</th></tr></thead><tbody>${topRevRows}</tbody></table></div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">📦 商品銷售排行 · 件數 <span class="sec-tag t1">商品</span></div>
+      <div class="chart-card full"><div class="ct">Top 10 商品（件數）</div><div class="cw" style="height:240px"><canvas id="topQtyChart"></canvas></div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">📋 全商品明細 <span class="sec-tag t1">商品</span></div>
+      <div class="tbl-card"><div class="tbl-hd"><div class="tbl-title">全商品銷售明細</div><div class="tbl-right"><span class="tbl-count" id="tbl-count"></span><input class="tbl-search" type="text" placeholder="搜尋商品/廠商…" id="tbl-search" oninput="doFilter(this.value)"></div></div><div class="tbl-scroll"><table><thead><tr><th onclick="doSort('supplier')" id="th-supplier">廠商</th><th onclick="doSort('name')" id="th-name">商品名稱</th><th onclick="doSort('price')" id="th-price" style="text-align:right">售價</th><th onclick="doSort('net')" id="th-net" style="text-align:right">銷售件</th><th onclick="doSort('revenue')" id="th-revenue" style="text-align:right">銷售額</th><th style="min-width:90px">佔比</th></tr></thead><tbody id="tbl-body"></tbody></table></div><div class="pgn"><span id="pg-info"></span><div class="pbtns" id="pg-btns"></div></div></div>
+    </div>`:`<div class="unlock-big"><div class="ub-icon">📦</div><div class="ub-title">上傳商品銷售總表以解鎖</div><div class="ub-sub">商品銷售排行 · Top 10 分析 · SKU 明細搜尋 · 件數與金額排行</div></div>`}
+  </div>
+  <div class="dpanel" id="dp-suppliers">
+    ${hasS?`
+    <div class="sec">
+      <div class="sec-title">🏭 廠商分析 <span class="sec-tag t1">商品</span></div>
+      <div class="chart-grid">
+        <div class="chart-card"><div class="ct">廠商營收佔比</div><div class="cs">各供應商貢獻</div><div class="cw" style="height:190px"><canvas id="supChart"></canvas></div><div id="sup-leg" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px"></div></div>
+        <div class="chart-card"><div class="ct">廠商件數比較</div><div class="cs">各廠商出貨量</div><div class="cw" style="height:190px"><canvas id="supBarChart"></canvas></div></div>
+        <div class="chart-card"><div class="ct">商品 vs 票房結構</div><div class="cs">收入來源佔比</div><div class="cw" style="height:190px"><canvas id="revSplitChart"></canvas></div></div>
+      </div>
+      <div class="tbl-card" style="overflow-x:auto;margin-top:12px"><table class="sup-table"><thead><tr><th style="padding:7px 10px">#</th><th>廠商名稱</th><th style="text-align:right">銷售額</th><th style="text-align:right">件數</th><th style="text-align:right">件均價</th><th>佔比</th></tr></thead><tbody>${supTableRows}</tbody></table></div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">🏷 商品類別分析 · 價格帶 <span class="sec-tag t1">商品</span></div>
+      <div class="chart-card full"><div class="ct">各價格帶銷售額 vs 件數</div><div class="cw" style="height:200px"><canvas id="catChart"></canvas></div></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px">${bandCards}</div>
+    </div>`:`<div class="unlock-big"><div class="ub-icon">🏭</div><div class="ub-title">上傳商品銷售總表以解鎖</div><div class="ub-sub">廠商銷售排行 · 廠商貢獻度 · 商品價格帶分析 · 件均價比較</div></div>`}
+  </div>
+  <div class="dpanel" id="dp-tickets">
+    ${hasT?`
+    <div class="dash-stat-row">
+      <div class="dash-stat"><div class="ds-val">${fmt(ticketQty)}</div><div class="ds-label">售出總票數</div></div>
+      <div class="dash-stat"><div class="ds-val">NT$ ${fmt(ticketRev)}</div><div class="ds-label">票房總收入</div></div>
+      <div class="dash-stat"><div class="ds-val">NT$ ${fmt(ticketQty>0?Math.round(ticketRev/ticketQty):0)}</div><div class="ds-label">平均票價</div></div>
+      <div class="dash-stat"><div class="ds-val">${Object.keys(ticketAgg.byType).length}</div><div class="ds-label">票種數量</div></div>
+      <div class="dash-stat"><div class="ds-val">${tDates.length}</div><div class="ds-label">營業天數</div></div>
+      <div class="dash-stat"><div class="ds-val">${fmt(Math.round(ticketQty/Math.max(tDates.length,1)))}</div><div class="ds-label">日均售票</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">🎟 票種分析 <span class="sec-tag t2">票房</span></div>
+      <div class="ticket-stats">${Object.entries(ticketAgg.byType).map(([name,v])=>`<div class="tk-card"><div class="tk-label">${name.replace('十週年特展-現場票券 - ','').replace('十週年特展-現場票券-','')}</div><div class="tk-val">${v.qty} 張</div><div class="tk-note">NT$ ${fmt(v.rev)} · 均 NT$ ${fmt(Math.round(v.rev/Math.max(v.qty,1)))}</div></div>`).join('')}</div>
+      <div class="chart-grid">
+        <div class="chart-card"><div class="ct">票種佔比</div><div class="cs">依張數分布</div><div class="cw" style="height:180px"><canvas id="ticketPieChart"></canvas></div><div id="ticket-leg" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px"></div></div>
+        <div class="chart-card"><div class="ct">票種票房收入</div><div class="cs">各票種銷售額</div><div class="cw" style="height:180px"><canvas id="ticketRevChart"></canvas></div></div>
+        <div class="chart-card"><div class="ct">每日票房趨勢</div><div class="cs">日別售票張數</div><div class="cw" style="height:180px"><canvas id="ticketTrendChart"></canvas></div></div>
+      </div>
+    </div>`:`<div class="unlock-big"><div class="ub-icon">🎟</div><div class="ub-title">上傳票房日報以解鎖</div><div class="ub-sub">票種分析 · 每日票房趨勢 · 票房佔比 · 售票張數統計</div></div>`}
+  </div>
+  `;
+  setTimeout(()=>drawTabCharts('overview'),30);
+}
+
+function renderPaymentSection(o){
+  const t=o.totalRevenue||1;
+  const cPct=Math.round(o.cash/t*100),crPct=Math.round(o.credit/t*100),lPct=Math.round(o.linepay/t*100);
+  return `<div class="order-grid">
+    <div class="order-card">
+      <div class="kpi-label" style="margin-bottom:8px">付款方式分佈</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="display:flex;justify-content:space-between;font-size:11px"><span style="display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#2a6b4a;border-radius:2px;display:inline-block"></span>現金</span><span style="font-weight:600">NT$ ${fmt(o.cash)} (${cPct}%)</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px"><span style="display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#2455a4;border-radius:2px;display:inline-block"></span>信用卡</span><span style="font-weight:600">NT$ ${fmt(o.credit)} (${crPct}%)</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px"><span style="display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#c94a2a;border-radius:2px;display:inline-block"></span>Line Pay</span><span style="font-weight:600">NT$ ${fmt(o.linepay)} (${lPct}%)</span></div>
+      </div>
+      <div class="pay-bar"><div class="pay-seg" style="width:${cPct}%;background:#2a6b4a"></div><div class="pay-seg" style="width:${crPct}%;background:#2455a4"></div><div class="pay-seg" style="width:${lPct}%;background:#c94a2a"></div></div>
+    </div>
+    <div class="order-card"><div class="kpi-label" style="margin-bottom:8px">付款方式圓圖</div><div class="cw" style="height:120px"><canvas id="payChart" role="img" aria-label="付款方式">付款</canvas></div></div>
+    <div class="order-card"><div class="kpi-label" style="margin-bottom:8px">客單金額分佈（筆數）</div><div class="cw" style="height:120px"><canvas id="aovDistChart" role="img" aria-label="客單分佈">客單</canvas></div></div>
+  </div>`;
+}
+
+// ═══════════════════════════
+// CHARTS
+// ═══════════════════════════
+function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+
+function drawTrendChart(dates,sales,tickets,hasTicket,orders,hasOrder){
+  dc('trendChart');const el=document.getElementById('trendChart');if(!el)return;
+  const datasets=[];
+  if(hasOrder){
+    datasets.push({label:'訂單結算',data:orders,backgroundColor:'#c94a2a',borderRadius:3,borderWidth:0,stack:'s'});
+  } else {
+    datasets.push({label:'商品銷售',data:sales,backgroundColor:'#c94a2a',borderRadius:3,borderWidth:0,stack:'s'});
+  }
+  if(hasTicket)datasets.push({label:'票房收入',data:tickets,backgroundColor:'#5a3a8c',borderRadius:3,borderWidth:0,stack:'s'});
+  charts['trendChart']=new Chart(el,{type:'bar',data:{labels:dates,datasets},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:hasTicket||hasOrder,position:'top',labels:{font:{size:10},boxWidth:10,padding:10}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: NT$ ${fmt(ctx.raw)}`}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45},stacked:true},y:{grid:{color:'#e8e4dc'},ticks:{font:{size:10},callback:v=>'NT$'+(v>=1000?Math.round(v/1000)+'K':v)},stacked:true}}}});
+}
+
+function drawSupChart(list){
+  dc('supChart');const el=document.getElementById('supChart');if(!el)return;
+  const top=list.slice(0,7),data=top.map(([,v])=>v.revenue),total=data.reduce((a,b)=>a+b,0);
+  charts['supChart']=new Chart(el,{type:'doughnut',data:{labels:top.map(([s])=>s),datasets:[{data,backgroundColor:COLORS,borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`NT$ ${fmt(ctx.raw)} (${(ctx.raw/total*100).toFixed(1)}%)`}}},cutout:'60%'}});
+  const leg=document.getElementById('sup-leg');
+  if(leg)leg.innerHTML=top.map(([s,v],i)=>`<span style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text2)"><span style="width:6px;height:6px;border-radius:2px;background:${COLORS[i]};flex-shrink:0"></span>${s} ${(v.revenue/total*100).toFixed(1)}%</span>`).join('');
+}
+
+function drawTopRevChart(rows){
+  dc('topRevChart');const el=document.getElementById('topRevChart');if(!el)return;
+  charts['topRevChart']=new Chart(el,{type:'bar',data:{labels:rows.map(r=>r.name.length>12?r.name.slice(0,12)+'…':r.name),datasets:[{data:rows.map(r=>r.revenue),backgroundColor:'#c94a2a',borderRadius:3,borderWidth:0}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`NT$ ${fmt(ctx.raw)}`}}},scales:{x:{grid:{color:'#e8e4dc'},ticks:{font:{size:10},callback:v=>v>=1000?Math.round(v/1000)+'K':v}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+}
+
+function drawTopQtyChart(rows){
+  dc('topQtyChart');const el=document.getElementById('topQtyChart');if(!el)return;
+  charts['topQtyChart']=new Chart(el,{type:'bar',data:{labels:rows.map(r=>r.name.length>12?r.name.slice(0,12)+'…':r.name),datasets:[{data:rows.map(r=>r.net),backgroundColor:'#2a6b4a',borderRadius:3,borderWidth:0}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw} 件`}}},scales:{x:{grid:{color:'#e8e4dc'},ticks:{font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+}
+
+function drawRevSplit(salesRev,ticketRev){
+  dc('revSplitChart');const el=document.getElementById('revSplitChart');if(!el)return;
+  const hasBoth=salesRev>0&&ticketRev>0;
+  charts['revSplitChart']=new Chart(el,{type:'doughnut',
+    data:{labels:['商品銷售','票房收入'],datasets:[{data:[salesRev,ticketRev],backgroundColor:['#c94a2a','#5a3a8c'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:10,padding:8}},tooltip:{callbacks:{label:ctx=>`NT$ ${fmt(ctx.raw)} (${(ctx.raw/(salesRev+ticketRev)*100).toFixed(1)}%)`}}}}});
+}
+
+function drawTicketCharts(agg){
+  const types=Object.entries(agg.byType);
+  const names=types.map(([n])=>n.replace('十週年特展-現場票券 - ','').replace('十週年特展-現場票券-',''));
+  const TCOLORS=['#5a3a8c','#b87020','#2a6b4a','#2455a4'];
+
+  dc('ticketPieChart');const el=document.getElementById('ticketPieChart');
+  if(el){
+    const qtys=types.map(([,v])=>v.qty),total=qtys.reduce((a,b)=>a+b,0);
+    charts['ticketPieChart']=new Chart(el,{type:'doughnut',data:{labels:names,datasets:[{data:qtys,backgroundColor:TCOLORS,borderWidth:2,borderColor:'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw} 張 (${(ctx.raw/total*100).toFixed(1)}%)`}}}}});
+    const leg=document.getElementById('ticket-leg');
+    if(leg)leg.innerHTML=types.map(([n,v],i)=>`<span style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text2)"><span style="width:6px;height:6px;border-radius:2px;background:${TCOLORS[i]};flex-shrink:0"></span>${names[i]} ${v.qty}張</span>`).join('');
+  }
+  dc('ticketRevChart');const el2=document.getElementById('ticketRevChart');
+  if(el2){
+    charts['ticketRevChart']=new Chart(el2,{type:'bar',data:{labels:names,datasets:[{data:types.map(([,v])=>v.rev),backgroundColor:TCOLORS,borderRadius:3,borderWidth:0}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`NT$ ${fmt(ctx.raw)}`}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#e8e4dc'},ticks:{font:{size:10},callback:v=>v>=1000?Math.round(v/1000)+'K':v}}}}});
+  }
+}
+
+function drawPaymentChart(o){
+  dc('payChart');const el=document.getElementById('payChart');if(!el)return;
+  const total=o.totalRevenue||1;
+  charts['payChart']=new Chart(el,{type:'doughnut',data:{labels:['現金','信用卡','Line Pay'],datasets:[{data:[o.cash,o.credit,o.linepay],backgroundColor:['#2a6b4a','#2455a4','#c94a2a'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${(ctx.raw/total*100).toFixed(1)}%`}}}}});
+}
+
+function drawAovDistChart(orders){
+  dc('aovDistChart');const el=document.getElementById('aovDistChart');if(!el)return;
+  const buckets=[{l:'$1K↓',min:0,max:1000},{l:'$1–2K',min:1000,max:2000},{l:'$2–4K',min:2000,max:4000},{l:'$4–8K',min:4000,max:8000},{l:'$8K↑',min:8000,max:Infinity}];
+  charts['aovDistChart']=new Chart(el,{type:'bar',data:{labels:buckets.map(b=>b.l),datasets:[{data:buckets.map(b=>orders.filter(o=>o.total>=b.min&&o.total<b.max).length),backgroundColor:'#2455a4',borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw} 筆`}}},scales:{x:{grid:{display:false},ticks:{font:{size:9}}},y:{grid:{color:'#e8e4dc'},ticks:{font:{size:9},stepSize:1}}}}});
+}
+
+// ═══════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════
+function switchTab(name){
+  const tabs=['overview','orders','products','suppliers','tickets'];
+  document.querySelectorAll('.dtab').forEach((b,i)=>b.classList.toggle('active',tabs[i]===name));
+  document.querySelectorAll('.dpanel').forEach(p=>p.classList.toggle('active',p.id==='dp-'+name));
+  setTimeout(()=>drawTabCharts(name),30);
+}
+window.switchTab=switchTab;
+
+function drawTabCharts(tab){
+  const d=_lastRdParams;if(!d)return;
+  if(tab==='overview'){
+    if((d.allDates.length>1||d.hasT||d.hasO)&&document.getElementById('trendChart'))
+      drawTrendChart(d.trendDates,d.trendSales,d.trendTicket,d.hasT,d.trendOrder,d.hasO);
+  }else if(tab==='orders'&&d.hasO){
+    drawPaymentChart(d.orderAgg);drawAovDistChart(d.orderAgg.allOrders);
+    drawTxnTrendChart(d.oDates);drawAovTrendChart(d.oDates);drawPaymentTrendChart(d.oDates);
+  }else if(tab==='products'&&d.hasS){
+    drawTopRevChart(d.topRev);drawTopQtyChart(d.topQty);
+  }else if(tab==='suppliers'&&d.hasS){
+    drawSupChart(d.supList);drawSupBarChart(d.supList);drawRevSplit(d.salesRev,d.ticketRev);drawCategoryChart(d.allRows);
+  }else if(tab==='tickets'&&d.hasT){
+    drawTicketCharts(d.ticketAgg);drawTicketTrendChart(d.ticketAgg);
+  }
+}
+
+function drawTxnTrendChart(oDates){
+  dc('txnTrendChart');const el=document.getElementById('txnTrendChart');if(!el)return;
+  charts['txnTrendChart']=new Chart(el,{type:'bar',
+    data:{labels:oDates,datasets:[{label:'交易筆數',data:oDates.map(d=>orderDays[d]?orderDays[d].totalOrders:0),backgroundColor:'#2455a4',borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw} 筆`}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45}},y:{grid:{color:'#e8e4dc'},ticks:{font:{size:10},stepSize:1}}}}});
+}
+
+function drawAovTrendChart(oDates){
+  dc('aovTrendChart');const el=document.getElementById('aovTrendChart');if(!el)return;
+  charts['aovTrendChart']=new Chart(el,{type:'line',
+    data:{labels:oDates,datasets:[{label:'客單價',data:oDates.map(d=>{const od=orderDays[d];return od&&od.totalOrders>0?Math.round(od.totalRevenue/od.totalOrders):0;}),borderColor:'#c94a2a',backgroundColor:'rgba(201,74,42,.1)',tension:.3,pointRadius:4,pointBackgroundColor:'#c94a2a',fill:true,borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`NT$ ${fmt(ctx.raw)}`}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45}},y:{grid:{color:'#e8e4dc'},ticks:{font:{size:10},callback:v=>'NT$'+(v>=1000?Math.round(v/1000)+'K':v)}}}}});
+}
+
+function drawPaymentTrendChart(oDates){
+  dc('payTrendChart');const el=document.getElementById('payTrendChart');if(!el)return;
+  charts['payTrendChart']=new Chart(el,{type:'bar',
+    data:{labels:oDates,datasets:[
+      {label:'現金',data:oDates.map(d=>orderDays[d]?orderDays[d].cash:0),backgroundColor:'#2a6b4a',borderRadius:2,stack:'p'},
+      {label:'信用卡',data:oDates.map(d=>orderDays[d]?orderDays[d].credit:0),backgroundColor:'#2455a4',borderRadius:2,stack:'p'},
+      {label:'Line Pay',data:oDates.map(d=>orderDays[d]?orderDays[d].linepay:0),backgroundColor:'#c94a2a',borderRadius:2,stack:'p'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:8}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: NT$ ${fmt(ctx.raw)}`}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45},stacked:true},y:{grid:{color:'#e8e4dc'},ticks:{font:{size:10},callback:v=>'NT$'+(v>=1000?Math.round(v/1000)+'K':v)},stacked:true}}}});
+}
+
+function drawSupBarChart(list){
+  dc('supBarChart');const el=document.getElementById('supBarChart');if(!el)return;
+  const top=list.slice(0,8);
+  charts['supBarChart']=new Chart(el,{type:'bar',
+    data:{labels:top.map(([s])=>s.length>10?s.slice(0,10)+'…':s),datasets:[{label:'件數',data:top.map(([,v])=>v.qty),backgroundColor:COLORS.slice(0,top.length),borderRadius:3,borderWidth:0}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw} 件`}}},
+    scales:{x:{grid:{color:'#e8e4dc'},ticks:{font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+}
+
+function drawCategoryChart(allRows){
+  dc('catChart');const el=document.getElementById('catChart');if(!el)return;
+  const bands=[{l:'$0–99',mn:0,mx:99},{l:'$100–499',mn:100,mx:499},{l:'$500–999',mn:500,mx:999},{l:'$1K–4.9K',mn:1000,mx:4999},{l:'$5K+',mn:5000,mx:Infinity}];
+  const revData=bands.map(b=>allRows.filter(r=>r.price>=b.mn&&r.price<=b.mx).reduce((s,r)=>s+r.revenue,0));
+  const qtyData=bands.map(b=>allRows.filter(r=>r.price>=b.mn&&r.price<=b.mx).reduce((s,r)=>s+r.net,0));
+  charts['catChart']=new Chart(el,{type:'bar',
+    data:{labels:bands.map(b=>b.l),datasets:[
+      {label:'銷售額',data:revData,backgroundColor:'#c94a2a',borderRadius:3,borderWidth:0,yAxisID:'y'},
+      {label:'件數',data:qtyData,backgroundColor:'#2455a4',borderRadius:3,borderWidth:0,yAxisID:'y2'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10}},tooltip:{callbacks:{label:ctx=>ctx.dataset.yAxisID==='y'?`NT$ ${fmt(ctx.raw)}`:`${ctx.raw} 件`}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:10}}},
+      y:{grid:{color:'#e8e4dc'},position:'left',ticks:{font:{size:10},callback:v=>'NT$'+(v>=1000?Math.round(v/1000)+'K':v)}},
+      y2:{grid:{display:false},position:'right',ticks:{font:{size:10}}}}}});
+}
+
+function drawTicketTrendChart(agg){
+  dc('ticketTrendChart');const el=document.getElementById('ticketTrendChart');if(!el)return;
+  const dates=agg.dayRevs.map(d=>d.date);
+  charts['ticketTrendChart']=new Chart(el,{type:'bar',
+    data:{labels:dates,datasets:[
+      {label:'售票張數',data:agg.dayRevs.map(d=>d.qty),backgroundColor:'#5a3a8c',borderRadius:3,borderWidth:0,yAxisID:'y'},
+      {label:'票房收入',data:agg.dayRevs.map(d=>d.rev),type:'line',borderColor:'#b87020',backgroundColor:'transparent',tension:.3,pointRadius:3,pointBackgroundColor:'#b87020',borderWidth:2,yAxisID:'y2'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10}},tooltip:{callbacks:{label:ctx=>ctx.dataset.yAxisID==='y'?`${ctx.raw} 張`:`NT$ ${fmt(ctx.raw)}`}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45}},
+      y:{grid:{color:'#e8e4dc'},position:'left',ticks:{font:{size:10}}},
+      y2:{grid:{display:false},position:'right',ticks:{font:{size:10},callback:v=>'NT$'+(v>=1000?Math.round(v/1000)+'K':v)}}}}});
+}
+
+// ═══════════════════════════
+// TABLE
+// ═══════════════════════════
+function initTable(rows){tableRows=rows;tFilter='';tPage=1;const s=document.getElementById('tbl-search');if(s)s.value='';renderTable();}
+function doFilter(val){tFilter=val.toLowerCase();tPage=1;renderTable();}
+function doSort(col){if(tSort.col===col)tSort.dir=tSort.dir==='desc'?'asc':'desc';else{tSort.col=col;tSort.dir='desc';}renderTable();}
+window.doFilter=doFilter;window.doSort=doSort;window.goPage=goPage;
+
+function renderTable(){
+  filteredRows=tableRows.filter(r=>!tFilter||r.name.toLowerCase().includes(tFilter)||r.supplier.toLowerCase().includes(tFilter)||r.sku.toLowerCase().includes(tFilter));
+  const{col,dir}=tSort;
+  filteredRows.sort((a,b)=>{let va=a[col],vb=b[col];if(typeof va==='string'){va=va.toLowerCase();vb=vb.toLowerCase();}if(va<vb)return dir==='asc'?-1:1;if(va>vb)return dir==='asc'?1:-1;return 0;});
+  const total=filteredRows.length,pages=Math.max(1,Math.ceil(total/PG));
+  if(tPage>pages)tPage=pages;
+  const start=(tPage-1)*PG,slice=filteredRows.slice(start,start+PG),maxRev=(filteredRows[0]&&filteredRows[0].revenue)||1;
+  ['supplier','name','price','net','revenue'].forEach(c=>{const th=document.getElementById('th-'+c);if(!th)return;th.classList.toggle('sorted',tSort.col===c);th.setAttribute('data-dir',tSort.col===c?(tSort.dir==='desc'?'↓':'↑'):'');});
+  const tbody=document.getElementById('tbl-body');if(!tbody)return;
+  tbody.innerHTML=slice.map(r=>{
+    const p=totalRev>0?(r.revenue/totalRev*100):0,bw=Math.round(r.revenue/maxRev*75);
+    return `<tr><td><span class="badge ${bdg(r.supplier)}">${r.supplier}</span></td><td class="bold" style="max-width:210px;word-break:break-all">${r.name}</td><td class="num muted">${r.price>0?'NT$ '+fmt(r.price):'贈品'}</td><td class="num">${r.net}</td><td class="num bold">${r.revenue>0?'NT$ '+fmt(r.revenue):'-'}</td><td><div class="mini-bar-wrap"><div class="mini-bar" style="width:${bw}px;background:var(--accent)"></div><span class="muted" style="font-size:9px">${p.toFixed(1)}%</span></div></td></tr>`;
+  }).join('');
+  const pi=document.getElementById('pg-info'),pb=document.getElementById('pg-btns'),tc=document.getElementById('tbl-count');
+  if(tc)tc.textContent=`${fmt(total)} 筆`;
+  if(pi)pi.textContent=`第 ${start+1}–${Math.min(start+PG,total)} 筆`;
+  if(pb){
+    const pns=[...new Set([1,...Array.from({length:pages},(_,i)=>i+1).filter(p=>Math.abs(p-tPage)<=2),pages])].filter(p=>p>=1&&p<=pages);
+    pb.innerHTML=`<button class="pb" onclick="goPage(${tPage-1})" ${tPage<=1?'disabled':''}>‹</button>${pns.map((p,i,arr)=>`${i>0&&arr[i]-arr[i-1]>1?'<span style="padding:2px 3px;color:var(--text3)">…</span>':''}<button class="pb ${p===tPage?'act':''}" onclick="goPage(${p})">${p}</button>`).join('')}<button class="pb" onclick="goPage(${tPage+1})" ${tPage>=pages?'disabled':''}>›</button>`;
+  }
+}
+
+// ═══════════════════════════
+// MISSION CONTROL
+// ═══════════════════════════
+function updateMissionControl(totalRevenue) {
+  const TARGET = 40000000;
+  const START = new Date('2026-06-05');
+  const END = new Date('2026-08-30');
+  const TODAY = new Date();
+  TODAY.setHours(0,0,0,0);
+
+  // Days remaining (including today)
+  const msLeft = END - TODAY;
+  const daysLeft = Math.max(0, Math.ceil(msLeft / 86400000));
+  const totalDays = Math.ceil((END - START) / 86400000) + 1;
+  const daysPassed = totalDays - daysLeft;
+
+  // Count remaining weekdays vs weekends
+  let remWeekdays = 0, remWeekends = 0;
+  for(let d = new Date(TODAY); d <= END; d.setDate(d.getDate()+1)) {
+    const day = d.getDay();
+    if(day === 0 || day === 6) remWeekends++;
+    else remWeekdays++;
+  }
+
+  // Gap and rate
+  const gap = Math.max(0, TARGET - totalRevenue);
+  const rate = totalRevenue / TARGET * 100;
+
+  // Daily target calculation
+  // weekend = 4x weekday → gap = weekday_target * remWeekdays + 4 * weekday_target * remWeekends
+  // gap = weekday_target * (remWeekdays + 4 * remWeekends)
+  const denominator = remWeekdays + 4 * remWeekends;
+  const weekdayTarget = denominator > 0 ? gap / denominator : 0;
+  const weekendTarget = weekdayTarget * 4;
+
+  // Time progress
+  const timePct = Math.min(100, (daysPassed / totalDays * 100));
+
+  // Update DOM
+  document.getElementById('mc-today').textContent =
+    TODAY.toLocaleDateString('zh-TW', {year:'numeric',month:'long',day:'numeric',weekday:'short'});
+
+  document.getElementById('mc-total').textContent = 'NT$ ' + fmt(Math.round(totalRevenue));
+
+  const rateEl = document.getElementById('mc-rate');
+  rateEl.textContent = rate.toFixed(1) + '%';
+  rateEl.className = 'mc-val ' + (rate >= 100 ? 'green' : rate >= timePct ? 'green' : rate >= timePct * 0.85 ? 'amber' : 'red');
+
+  const gapEl = document.getElementById('mc-gap');
+  if(gap <= 0) {
+    gapEl.textContent = '已達標 🎉';
+    gapEl.className = 'mc-val green';
+    document.getElementById('mc-gap-note').textContent = '超出目標 NT$ ' + fmt(Math.round(Math.abs(gap)));
+  } else {
+    gapEl.textContent = 'NT$ ' + fmt(Math.round(gap));
+    gapEl.className = 'mc-val red';
+    document.getElementById('mc-gap-note').textContent = '尚需達成';
+  }
+
+  const daysEl = document.getElementById('mc-days');
+  daysEl.textContent = daysLeft + ' 天';
+  daysEl.className = 'mc-val ' + (daysLeft > 30 ? 'white' : daysLeft > 14 ? 'amber' : 'red');
+  document.getElementById('mc-days-note').textContent =
+    `含 ${remWeekdays} 平日 · ${remWeekends} 假日`;
+
+  // Progress bars
+  const barPct = Math.min(100, rate);
+  const barEl = document.getElementById('mc-bar');
+  barEl.style.width = barPct + '%';
+  barEl.className = 'mc-bar-fill ' + (rate >= 100 ? 'green' : rate >= timePct * 0.85 ? 'green' : rate >= timePct * 0.7 ? 'amber' : 'red');
+  document.getElementById('mc-progress-pct').textContent = rate.toFixed(1) + '%';
+
+  document.getElementById('mc-time-bar').style.width = timePct + '%';
+  document.getElementById('mc-time-pct').textContent = timePct.toFixed(1) + '%';
+
+  // Daily targets
+  document.getElementById('mc-weekday-target').textContent =
+    weekdayTarget > 0 ? 'NT$ ' + fmt(Math.round(weekdayTarget)) : '已達標';
+  document.getElementById('mc-weekend-target').textContent =
+    weekendTarget > 0 ? 'NT$ ' + fmt(Math.round(weekendTarget)) : '已達標';
+  document.getElementById('mc-weekday-note').textContent =
+    `剩 ${remWeekdays} 個平日`;
+  document.getElementById('mc-weekend-note').textContent =
+    `剩 ${remWeekends} 個假日（平日 × 4）`;
+}
+
+updateMissionControl(0);
+
+
+
+
+
+
+
+
+
+// ═══════════════════════════
+// VISITOR TRACKER
+// ═══════════════════════════
+function loadVisitorData() { return _visitorCache; }
+function saveVisitorData(data) {
+  _visitorCache = data;
+  if (!FB_URL) return;
+  const obj = {};
+  data.forEach(d => { obj[d.date] = {visitors: d.visitors, note: d.note||'', updatedAt: d.updatedAt||''}; });
+  fbPut('/visitorData', obj).catch(e => {
+    console.warn('vmr visitor save failed', e);
+    toast('來客資料雲端儲存失敗', 'err', 4000);
+  });
+}
+
+// Set today's date as default
+(function(){
+  const el = document.getElementById('vi-date');
+  if(el) el.value = new Date().toISOString().slice(0,10);
+})();
+
+function saveVisitorEntry() {
+  const date = document.getElementById('vi-date').value;
+  const visitors = parseInt(document.getElementById('vi-visitors').value);
+  const note = document.getElementById('vi-note').value.trim();
+  if(!date) { alert('請選擇日期'); return; }
+  if(!visitors || visitors < 0) { alert('請輸入有效的來客數'); return; }
+  requirePw(()=>{
+    const data = loadVisitorData();
+    const existing = data.findIndex(d => d.date === date);
+    const entry = { date, visitors, note, updatedAt: new Date().toISOString() };
+    if(existing >= 0) {
+      if(!confirm(`${date} 已有紀錄（${data[existing].visitors} 人），要覆蓋嗎？`)) return;
+      data[existing] = entry;
+    } else {
+      data.push(entry);
+      data.sort((a,b) => a.date.localeCompare(b.date));
+    }
+    saveVisitorData(data);
+    document.getElementById('vi-visitors').value = '';
+    document.getElementById('vi-note').value = '';
+    const next = new Date(date);
+    next.setDate(next.getDate()+1);
+    document.getElementById('vi-date').value = next.toISOString().slice(0,10);
+    renderVisitorPanel();
+  });
+}
+window.saveVisitorEntry = saveVisitorEntry;
+
+function deleteVisitorEntry(date) {
+  requirePw(()=>{
+    if(!confirm(`確定刪除 ${date} 的來客紀錄？`)) return;
+    const data = loadVisitorData().filter(d => d.date !== date);
+    saveVisitorData(data);
+    renderVisitorPanel();
+  });
+}
+window.deleteVisitorEntry = deleteVisitorEntry;
+
+function exportVisitorCSV() {
+  requirePw(()=>{
+    const data = loadVisitorData();
+    if(!data.length) { alert('目前沒有來客紀錄'); return; }
+    const header = '日期,來客數,備註,更新時間';
+    const rows = data.map(d => `${d.date},${d.visitors},"${(d.note||'').replace(/"/g,'""')}",${d.updatedAt||''}`);
+    const csv = [header, ...rows].join('\n');
+    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `好想兔_來客紀錄_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  });
+}
+window.exportVisitorCSV = exportVisitorCSV;
+
+function importVisitorCSV(input) {
+  const file = input.files[0];
+  if(!file) return;
+  input.value = '';
+  requirePw(()=>{
+    const reader = new FileReader();
+    reader.onload = e => {
+      const lines = e.target.result.replace(/^\uFEFF/,'').split('\n').filter(Boolean);
+      const existing = loadVisitorData();
+      const existMap = {};
+      existing.forEach(d => existMap[d.date] = d);
+      let imported = 0;
+      for(let i=1; i<lines.length; i++) {
+        const parts = lines[i].match(/([^,]+),([^,]+),(".*?"|[^,]*),?(.*)/);
+        if(!parts) continue;
+        const date = parts[1].trim();
+        const visitors = parseInt(parts[2].trim());
+        const note = parts[3].replace(/^"|"$/g,'').replace(/""/g,'"').trim();
+        if(!date || !visitors) continue;
+        existMap[date] = { date, visitors, note, updatedAt: new Date().toISOString() };
+        imported++;
+      }
+      const merged = Object.values(existMap).sort((a,b)=>a.date.localeCompare(b.date));
+      saveVisitorData(merged);
+      renderVisitorPanel();
+      alert(`成功匯入 ${imported} 筆紀錄`);
+    };
+    reader.readAsText(file, 'utf-8');
+  });
+}
+window.importVisitorCSV = importVisitorCSV;
+
+function getOrderTxForDate(date) {
+  // Look up order data for a specific date
+  if(orderDays[date]) return orderDays[date].totalOrders;
+  return null;
+}
+
+function getRevenueForDate(date) {
+  let rev = 0;
+  if(salesDays[date]) rev += salesDays[date].totalRevenue;
+  if(ticketDays[date]) rev += ticketDays[date].totalTicketRev;
+  return rev;
+}
+
+function renderVisitorPanel() {
+  const data = loadVisitorData();
+  if(!data.length) {
+    document.getElementById('vi-tbody').innerHTML = '<tr><td colspan="8" class="vi-empty">尚無來客紀錄，請輸入今日來客數</td></tr>';
+    document.getElementById('vi-record-count').textContent = '';
+    ['vi-total-visitors','vi-avg-visitors','vi-overall-rate','vi-max-rate','vi-min-rate'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.textContent='─';
+    });
+    return;
+  }
+
+  // Build rows with order crossref
+  const rows = data.map(d => {
+    const tx = getOrderTxForDate(d.date);
+    const rev = getRevenueForDate(d.date);
+    const rate = (tx !== null && d.visitors > 0) ? (tx / d.visitors * 100) : null;
+    const aov = (tx && tx > 0) ? Math.round(rev / tx) : null;
+    return { ...d, tx, rev, rate, aov };
+  });
+
+  // Stats
+  const totalVisitors = rows.reduce((s,r)=>s+r.visitors,0);
+  const avgVisitors = Math.round(totalVisitors / rows.length);
+  const rowsWithRate = rows.filter(r=>r.rate!==null);
+  const totalTx = rowsWithRate.reduce((s,r)=>s+(r.tx||0),0);
+  const totalVisCrossed = rowsWithRate.reduce((s,r)=>s+r.visitors,0);
+  const overallRate = totalVisCrossed > 0 ? (totalTx / totalVisCrossed * 100) : null;
+  const maxRow = rowsWithRate.length ? rowsWithRate.reduce((a,b)=>a.rate>b.rate?a:b) : null;
+  const minRow = rowsWithRate.length ? rowsWithRate.reduce((a,b)=>a.rate<b.rate?a:b) : null;
+
+  // Update stats
+  document.getElementById('vi-total-visitors').textContent = fmt(totalVisitors);
+  document.getElementById('vi-avg-visitors').textContent = fmt(avgVisitors);
+  document.getElementById('vi-overall-rate').textContent = overallRate !== null ? overallRate.toFixed(1)+'%' : '─';
+  document.getElementById('vi-max-rate').textContent = maxRow ? maxRow.rate.toFixed(1)+'%' : '─';
+  document.getElementById('vi-max-rate-date').textContent = maxRow ? maxRow.date : '';
+  document.getElementById('vi-min-rate').textContent = minRow ? minRow.rate.toFixed(1)+'%' : '─';
+  document.getElementById('vi-min-rate-date').textContent = minRow ? minRow.date : '';
+  document.getElementById('vi-record-count').textContent = `共 ${rows.length} 天紀錄`;
+
+  // Table
+  const tbody = document.getElementById('vi-tbody');
+  tbody.innerHTML = [...rows].reverse().map(r => {
+    const rateColor = r.rate === null ? 'var(--text3)' :
+      r.rate >= 20 ? 'var(--green)' : r.rate >= 10 ? 'var(--amber)' : 'var(--accent)';
+    return `<tr>
+      <td style="font-weight:500;white-space:nowrap">${r.date}</td>
+      <td class="num">${fmt(r.visitors)}</td>
+      <td class="num">${r.tx !== null ? fmt(r.tx) : '<span style="color:var(--text3)">─</span>'}</td>
+      <td class="num bold" style="color:${rateColor}">${r.rate !== null ? r.rate.toFixed(1)+'%' : '<span style="color:var(--text3)">─</span>'}</td>
+      <td class="num">${r.rev > 0 ? 'NT$ '+fmt(Math.round(r.rev)) : '<span style="color:var(--text3)">─</span>'}</td>
+      <td class="num">${r.aov ? 'NT$ '+fmt(r.aov) : '<span style="color:var(--text3)">─</span>'}</td>
+      <td class="muted" style="font-size:11px;max-width:150px">${r.note||'─'}</td>
+      <td><span class="vi-row-del" onclick="deleteVisitorEntry('${r.date}')" title="刪除">✕</span></td>
+    </tr>`;
+  }).join('');
+
+  // Charts
+  const chartDates = rows.map(r=>r.date);
+  const chartRates = rows.map(r=>r.rate);
+  const chartVisitors = rows.map(r=>r.visitors);
+  const chartTx = rows.map(r=>r.tx||0);
+
+  dc('vi-rate-chart');
+  const rc = document.getElementById('vi-rate-chart');
+  if(rc && rowsWithRate.length) {
+    charts['vi-rate-chart'] = new Chart(rc, {
+      type: 'line',
+      data: {
+        labels: chartDates,
+        datasets: [{
+          label: '提袋率 %',
+          data: chartRates,
+          borderColor: '#7c3aed',
+          backgroundColor: 'rgba(124,58,237,.1)',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#7c3aed',
+          tension: 0.3,
+          fill: true,
+          spanGaps: true
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ctx.raw !== null ? ctx.raw.toFixed(1)+'%' : '無訂單數據' }}},
+        scales: {
+          x: { grid:{display:false}, ticks:{font:{size:9},maxRotation:45} },
+          y: { grid:{color:'#e8e4dc'}, ticks:{font:{size:9}, callback:v=>v+'%'},
+            suggestedMin:0 }
+        }
+      }
+    });
+  }
+
+  dc('vi-compare-chart');
+  const cc = document.getElementById('vi-compare-chart');
+  if(cc) {
+    charts['vi-compare-chart'] = new Chart(cc, {
+      type: 'bar',
+      data: {
+        labels: chartDates,
+        datasets: [
+          { label: '來客數', data: chartVisitors, backgroundColor: 'rgba(124,58,237,.25)', borderRadius: 3, borderWidth: 0 },
+          { label: '交易筆數', data: chartTx, backgroundColor: '#7c3aed', borderRadius: 3, borderWidth: 0 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: true, position: 'top', labels:{font:{size:9},boxWidth:10,padding:8} },
+          tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${fmt(ctx.raw)}` }}},
+        scales: {
+          x: { grid:{display:false}, ticks:{font:{size:9},maxRotation:45} },
+          y: { grid:{color:'#e8e4dc'}, ticks:{font:{size:9}} }
+        }
+      }
+    });
+  }
+}
+
+// Init on load
+renderVisitorPanel();
+
+
+// ═══════════════════════════
+// RANKINGS
+// ═══════════════════════════
+let _rkRows = []; // current filtered paid rows (set from renderDashboard)
+
+function isGift(r) {
+  // Exclude: price=0, revenue=0, or name contains gift keywords
+  if(r.price === 0 && r.revenue === 0) return true;
+  if(r.revenue === 0) return true;
+  const giftKeywords = ['贈品','滿額贈','滿額','加購贈','免費','gift','free','bonus'];
+  const nameLower = (r.name||'').toLowerCase();
+  if(giftKeywords.some(k => nameLower.includes(k.toLowerCase()))) return true;
+  return false;
+}
+
+function rkTab(el, id) {
+  document.querySelectorAll('.rk-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.rk-section').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+window.rkTab = rkTab;
+
+function renderRankings(rows) {
+  if(rows) _rkRows = rows;
+  const panel = document.getElementById('rk-panel');
+  if(!_rkRows.length) { panel.style.display='none'; return; }
+  panel.style.display = 'block';
+
+  const topN = parseInt((document.getElementById('rk-top-n')||{value:10}).value || 10);
+
+  // Filter out gifts
+  const paidRows = _rkRows.filter(r => !isGift(r));
+  const totalRev = paidRows.reduce((s,r)=>s+r.revenue,0);
+  const totalQty = paidRows.reduce((s,r)=>s+r.net,0);
+
+  // Product rankings
+  const byRevenue = [...paidRows].sort((a,b)=>b.revenue-a.revenue).slice(0,topN);
+  const byQty = [...paidRows].sort((a,b)=>b.net-a.net).slice(0,topN);
+
+  // Supplier rankings
+  const supMap = {};
+  for(const r of paidRows) {
+    if(!supMap[r.supplier]) supMap[r.supplier] = {name:r.supplier, revenue:0, net:0, skus:0};
+    supMap[r.supplier].revenue += r.revenue;
+    supMap[r.supplier].net += r.net;
+    supMap[r.supplier].skus++;
+  }
+  const supList = Object.values(supMap);
+  const supByRev = [...supList].sort((a,b)=>b.revenue-a.revenue).slice(0,topN);
+  const supByQty = [...supList].sort((a,b)=>b.net-a.net).slice(0,topN);
+  const maxSupRev = (supByRev[0]&&supByRev[0].revenue) || 1;
+  const maxSupQty = (supByQty[0]&&supByQty[0].net) || 1;
+
+  renderProductRankList('rk-product-rev', byRevenue, 'rev', totalRev, (byRevenue[0]&&byRevenue[0].revenue)||1);
+  renderProductRankList('rk-product-qty', byQty, 'qty', totalQty, (byQty[0]&&byQty[0].net)||1);
+  renderSupplierRankList('rk-supplier-rev', supByRev, 'rev', totalRev, maxSupRev, supList.length);
+  renderSupplierRankList('rk-supplier-qty', supByQty, 'qty', totalQty, maxSupQty, supList.length);
+}
+window.renderRankings = renderRankings;
+
+function rankClass(i) {
+  if(i===0) return 'r1'; if(i===1) return 'r2'; if(i===2) return 'r3'; return 'rn';
+}
+function rankLabel(i) {
+  if(i===0) return '🥇'; if(i===1) return '🥈'; if(i===2) return '🥉'; return (i+1)+'';
+}
+function itemClass(i) {
+  if(i===0) return 'top1'; if(i===1) return 'top2'; if(i===2) return 'top3'; return '';
+}
+
+function renderProductRankList(id, rows, mode, total, maxVal) {
+  const el = document.getElementById(id); if(!el) return;
+  if(!rows.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">無數據</div>'; return; }
+
+  const html = `
+    <div class="rk-list">
+      ${rows.map((r,i) => {
+        const val = mode==='rev' ? r.revenue : r.net;
+        const pct = total > 0 ? (val/total*100) : 0;
+        const barW = Math.round(val/maxVal*100);
+        return `<div class="rk-item ${itemClass(i)}">
+          <div class="rk-rank ${rankClass(i)}">${rankLabel(i)}</div>
+          <div class="rk-info">
+            <div class="rk-name" title="${r.name}">${r.name}</div>
+            <div class="rk-sub">${r.supplier}${r.price>0?' · NT$ '+fmt(r.price):''}</div>
+          </div>
+          <div class="rk-bar-wrap">
+            <div class="rk-bar-bg"><div class="rk-bar-fill ${mode}" style="width:${barW}%"></div></div>
+            <span class="rk-pct">${pct.toFixed(1)}%</span>
+          </div>
+          <div class="rk-val">
+            <div class="rk-val-main">${mode==='rev'?'NT$ '+fmt(r.revenue):r.net+' 件'}</div>
+            <div class="rk-val-sub">${mode==='rev'?r.net+' 件':'NT$ '+fmt(r.revenue)}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  el.innerHTML = html;
+}
+
+function renderSupplierRankList(id, rows, mode, total, maxVal, totalSuppliers) {
+  const el = document.getElementById(id); if(!el) return;
+  if(!rows.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">無數據</div>'; return; }
+
+  const html = `
+    <div style="margin-bottom:10px;font-size:11px;color:var(--text3)">共 ${totalSuppliers} 個廠商參與，已排除贈品品項</div>
+    <div class="rk-list">
+      ${rows.map((r,i) => {
+        const val = mode==='rev' ? r.revenue : r.net;
+        const pct = total > 0 ? (val/total*100) : 0;
+        const barW = Math.round(val/maxVal*100);
+        return `<div class="rk-item ${itemClass(i)}">
+          <div class="rk-rank ${rankClass(i)}">${rankLabel(i)}</div>
+          <div class="rk-info">
+            <div class="rk-name">${r.name}</div>
+            <div class="rk-sub">${r.skus} 個 SKU</div>
+          </div>
+          <div class="rk-bar-wrap">
+            <div class="rk-bar-bg"><div class="rk-bar-fill sup" style="width:${barW}%"></div></div>
+            <span class="rk-pct">${pct.toFixed(1)}%</span>
+          </div>
+          <div class="rk-val">
+            <div class="rk-val-main">${mode==='rev'?'NT$ '+fmt(r.revenue):r.net+' 件'}</div>
+            <div class="rk-val-sub">${mode==='rev'?r.net+' 件':'NT$ '+fmt(r.revenue)}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  el.innerHTML = html;
+}
+
+
+// ═══════════════════════════
+// GASHAPON (扭蛋機)
+// ═══════════════════════════
+function loadGachaData() { return _gachaCache; }
+function saveGachaData(data) {
+  _gachaCache = data;
+  if (!FB_URL) return;
+  // Store as object keyed by date to avoid Firebase array-to-object conversion issues
+  const obj = {};
+  data.forEach(d => { obj[d.date] = {revenue: d.revenue, note: d.note||'', updatedAt: d.updatedAt||''}; });
+  fbPut('/gachaData', obj).catch(e => {
+    console.warn('vmr gacha save failed', e);
+    toast('扭蛋資料雲端儲存失敗', 'err', 4000);
+  });
+}
+
+// Set default date
+(function(){
+  const el = document.getElementById('gc-date');
+  if(el) el.value = new Date().toISOString().slice(0,10);
+})();
+
+function getGachaRevForDate(date) {
+  const data = loadGachaData();
+  const entry = data.find(d => d.date === date);
+  return entry ? entry.revenue : 0;
+}
+
+function getTotalGachaRev(dates) {
+  // sum gacha revenue for given date array
+  const data = loadGachaData();
+  if(!dates || !dates.length) return data.reduce((s,d)=>s+d.revenue,0);
+  return data.filter(d=>dates.includes(d.date)).reduce((s,d)=>s+d.revenue,0);
+}
+
+function saveGachaEntry() {
+  const date = document.getElementById('gc-date').value;
+  const revenue = parseFloat(document.getElementById('gc-revenue').value);
+  const note = document.getElementById('gc-note').value.trim();
+  if(!date) { alert('請選擇日期'); return; }
+  if(!revenue || revenue < 0) { alert('請輸入有效的營業額'); return; }
+  requirePw(()=>{
+    const data = loadGachaData();
+    const existing = data.findIndex(d => d.date === date);
+    const entry = { date, revenue, note, updatedAt: new Date().toISOString() };
+    if(existing >= 0) {
+      if(!confirm(`${date} 已有紀錄（NT$ ${fmt(data[existing].revenue)}），要覆蓋嗎？`)) return;
+      data[existing] = entry;
+    } else {
+      data.push(entry);
+      data.sort((a,b) => a.date.localeCompare(b.date));
+    }
+    saveGachaData(data);
+    document.getElementById('gc-revenue').value = '';
+    document.getElementById('gc-note').value = '';
+    const next = new Date(date);
+    next.setDate(next.getDate()+1);
+    document.getElementById('gc-date').value = next.toISOString().slice(0,10);
+    renderGachaPanel();
+    applyFilters();
+  });
+}
+window.saveGachaEntry = saveGachaEntry;
+
+function deleteGachaEntry(date) {
+  requirePw(()=>{
+    if(!confirm(`確定刪除 ${date} 的扭蛋紀錄？`)) return;
+    saveGachaData(loadGachaData().filter(d => d.date !== date));
+    renderGachaPanel();
+    applyFilters();
+  });
+}
+window.deleteGachaEntry = deleteGachaEntry;
+
+function exportGachaCSV() {
+  requirePw(()=>{
+    const data = loadGachaData();
+    if(!data.length) { alert('目前沒有扭蛋紀錄'); return; }
+    const csv = ['日期,扭蛋營收,備註', ...data.map(d=>`${d.date},${d.revenue},"${(d.note||'').replace(/"/g,'""')}"`)].join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
+    a.download = `好想兔_扭蛋紀錄_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  });
+}
+window.exportGachaCSV = exportGachaCSV;
+
+function importGachaCSV(input) {
+  const file = input.files[0]; if(!file) return;
+  input.value='';
+  requirePw(()=>{
+    const reader = new FileReader();
+    reader.onload = e => {
+      const lines = e.target.result.replace(/^\uFEFF/,'').split('\n').filter(Boolean);
+      const existing = loadGachaData();
+      const map = {};
+      existing.forEach(d=>map[d.date]=d);
+      let imported=0;
+      for(let i=1;i<lines.length;i++){
+        const parts = lines[i].match(/([^,]+),([^,]+),?(.*)/);
+        if(!parts) continue;
+        const date=parts[1].trim(), revenue=parseFloat(parts[2].trim());
+        const note=(parts[3]||'').replace(/^"|"$/g,'').trim();
+        if(!date||!revenue) continue;
+        map[date]={date,revenue,note,updatedAt:new Date().toISOString()};
+        imported++;
+      }
+      saveGachaData(Object.values(map).sort((a,b)=>a.date.localeCompare(b.date)));
+      renderGachaPanel();
+      applyFilters();
+      alert(`成功匯入 ${imported} 筆扭蛋紀錄`);
+    };
+    reader.readAsText(file,'utf-8');
+  });
+}
+window.importGachaCSV = importGachaCSV;
+
+function renderGachaPanel() {
+  const data = loadGachaData();
+
+  // Stats
+  if(data.length) {
+    const total = data.reduce((s,d)=>s+d.revenue,0);
+    const avg = Math.round(total/data.length);
+    const maxEntry = data.reduce((a,b)=>a.revenue>b.revenue?a:b);
+    document.getElementById('gc-total').textContent = 'NT$ '+fmt(total);
+    document.getElementById('gc-avg').textContent = 'NT$ '+fmt(avg);
+    document.getElementById('gc-max').textContent = 'NT$ '+fmt(maxEntry.revenue);
+    document.getElementById('gc-max-date').textContent = maxEntry.date;
+    document.getElementById('gc-days').textContent = data.length+' 天';
+  } else {
+    ['gc-total','gc-avg','gc-max','gc-days'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.textContent='─';
+    });
+    document.getElementById('gc-max-date').textContent='';
+  }
+
+  // Table
+  const tbody = document.getElementById('gc-tbody');
+  if(!tbody) return;
+  if(!data.length) {
+    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3);font-size:12px">尚無扭蛋紀錄，請輸入今日營業額</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = [...data].reverse().map(d => {
+    const orderRev = orderDays[d.date] ? orderDays[d.date].totalRevenue : 0;
+    const ticketRev = ticketDays[d.date] ? ticketDays[d.date].totalTicketRev : 0;
+    const dayTotal = orderRev + ticketRev + d.revenue;
+    return `<tr>
+      <td style="font-weight:500;white-space:nowrap">${d.date}</td>
+      <td class="num bold" style="color:var(--amber)">NT$ ${fmt(d.revenue)}</td>
+      <td class="num">${orderRev>0?'NT$ '+fmt(orderRev):'<span style="color:var(--text3)">─</span>'}</td>
+      <td class="num">${ticketRev>0?'NT$ '+fmt(ticketRev):'<span style="color:var(--text3)">─</span>'}</td>
+      <td class="num bold">NT$ ${fmt(dayTotal)}</td>
+      <td class="muted" style="font-size:11px">${d.note||'─'}</td>
+      <td><span class="vi-row-del" onclick="deleteGachaEntry('${d.date}')" title="刪除">✕</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// Init — load from Firebase (cloud-first)
+function _applyCloudData() {
+  if(Object.keys(salesDays).length) document.getElementById('uz-sales').classList.add('has-data');
+  if(Object.keys(ticketDays).length) document.getElementById('uz-ticket').classList.add('has-data');
+  if(Object.keys(orderDays).length) document.getElementById('uz-order').classList.add('has-data');
+  const _hasO=Object.keys(orderDays).length>0;
+  const _orderTotal=_hasO?Object.values(orderDays).reduce((s,d)=>s+d.totalRevenue,0):0;
+  const _salesTotal=Object.values(salesDays).reduce((s,d)=>s+d.totalRevenue,0);
+  const _ticketTotal=Object.values(ticketDays).reduce((s,d)=>s+d.totalTicketRev,0);
+  const _gachaTotal=loadGachaData().reduce((s,d)=>s+d.revenue,0);
+  const _mcTotal=_hasO?(_orderTotal+_gachaTotal):(_salesTotal+_ticketTotal+_gachaTotal);
+  if(_mcTotal>0) updateMissionControl(_mcTotal);
+  afterLoad();
+  renderGachaPanel();
+  renderVisitorPanel();
+  if(FB_URL) document.getElementById('sync-btn').style.display='inline-flex';
+}
+
+async function syncToCloud() {
+  requirePw(async () => {
+    const btn = document.getElementById('sync-btn');
+    const orig = btn.textContent;
+    btn.textContent = '⏳ 同步中…';
+    btn.disabled = true;
+    try {
+      const jobs = [];
+      if(Object.keys(salesDays).length)  jobs.push(fbPut('/salesDays', salesDays));
+      if(Object.keys(ticketDays).length) jobs.push(fbPut('/ticketDays', ticketDays));
+      if(Object.keys(orderDays).length)  jobs.push(fbPut('/orderDays', orderDays));
+      if(_gachaCache.length) {
+        const obj = {};
+        _gachaCache.forEach(d => { obj[d.date]={revenue:d.revenue,note:d.note||'',updatedAt:d.updatedAt||''}; });
+        jobs.push(fbPut('/gachaData', obj));
+      }
+      if(_visitorCache.length) {
+        const obj = {};
+        _visitorCache.forEach(d => { obj[d.date]={visitors:d.visitors,note:d.note||'',updatedAt:d.updatedAt||''}; });
+        jobs.push(fbPut('/visitorData', obj));
+      }
+      const lsJobs = [];
+      const lsSales = _lsParse('vmr_salesDays_v1', {});
+      const lsTicket = _lsParse('vmr_ticketDays_v1', {});
+      const lsOrder = _lsParse('vmr_orderDays_v1', {});
+      const lsGacha = _lsParse('vmr_gacha_data_v1', []);
+      const lsVisitor = _lsParse('vmr_visitor_data_v1', []);
+      if(!Object.keys(salesDays).length && Object.keys(lsSales).length)  jobs.push(fbPut('/salesDays', lsSales));
+      if(!Object.keys(ticketDays).length && Object.keys(lsTicket).length) jobs.push(fbPut('/ticketDays', lsTicket));
+      if(!Object.keys(orderDays).length && Object.keys(lsOrder).length)  jobs.push(fbPut('/orderDays', lsOrder));
+      if(!_gachaCache.length && lsGacha.length) {
+        const obj = {};
+        lsGacha.forEach(d => { obj[d.date]={revenue:d.revenue,note:d.note||'',updatedAt:d.updatedAt||''}; });
+        jobs.push(fbPut('/gachaData', obj));
+      }
+      if(!_visitorCache.length && lsVisitor.length) {
+        const obj = {};
+        lsVisitor.forEach(d => { obj[d.date]={visitors:d.visitors,note:d.note||'',updatedAt:d.updatedAt||''}; });
+        jobs.push(fbPut('/visitorData', obj));
+      }
+      if(!jobs.length) { toast('目前沒有資料可同步', 'err', 3000); return; }
+      await Promise.all(jobs);
+      toast('✓ 資料已同步至雲端，同事現在可以看到最新數據', 'ok', 6000);
+    } catch(e) {
+      toast('同步失敗：' + e.message, 'err', 5000);
+    } finally {
+      btn.textContent = orig;
+      btn.disabled = false;
+    }
+  });
+}
+window.syncToCloud = syncToCloud;
+// 讀取 localStorage 舊資料（遷移用）
+function _lsParse(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e) { return fallback; }
+}
+
+// 手動把本機資料推送至雲端（可從 console 或按鈕呼叫）
+async function pushLocalToCloud() {
+  const lsSales   = _lsParse('vmr_salesDays_v1', {});
+  const lsTicket  = _lsParse('vmr_ticketDays_v1', {});
+  const lsOrder   = _lsParse('vmr_orderDays_v1', {});
+  const lsGacha   = _lsParse('vmr_gacha_data_v1', []);
+  const lsVisitor = _lsParse('vmr_visitor_data_v1', []);
+  const jobs = [];
+  if (Object.keys(lsSales).length)   jobs.push(fbPut('/salesDays',  lsSales));
+  if (Object.keys(lsTicket).length)  jobs.push(fbPut('/ticketDays', lsTicket));
+  if (Object.keys(lsOrder).length)   jobs.push(fbPut('/orderDays',  lsOrder));
+  if (lsGacha.length) {
+    const obj = {};
+    lsGacha.forEach(d => { obj[d.date] = {revenue:d.revenue, note:d.note||'', updatedAt:d.updatedAt||''}; });
+    jobs.push(fbPut('/gachaData', obj));
+  }
+  if (lsVisitor.length) {
+    const obj = {};
+    lsVisitor.forEach(d => { obj[d.date] = {visitors:d.visitors, note:d.note||'', updatedAt:d.updatedAt||''}; });
+    jobs.push(fbPut('/visitorData', obj));
+  }
+  if (!jobs.length) return false;
+  await Promise.all(jobs);
+  return true;
+}
+window.pushLocalToCloud = pushLocalToCloud;
+
+(async function vmrInit(){
+  if (!FB_URL) {
+    const el = document.getElementById('cloud-loading');
+    el.style.display = 'flex';
+    document.getElementById('cl-spinner').style.display = 'none';
+    document.getElementById('cl-text').textContent = '尚未設定雲端資料庫';
+    const errEl = document.getElementById('cl-err');
+    errEl.style.display = 'block';
+    errEl.innerHTML = '請參閱設定說明，將 Firebase Realtime Database URL 填入程式碼中的 <strong>FB_URL</strong> 變數，再重新部署。';
+    return;
+  }
+  const el = document.getElementById('cloud-loading');
+  el.style.display = 'flex';
+  try {
+    document.getElementById('cl-text').textContent = '正在從雲端載入資料…';
+    const data = await fbGet('/');
+
+    // 判斷 Firebase 是否為空
+    const fbHasData = data && (
+      Object.keys(data.salesDays  || {}).length ||
+      Object.keys(data.ticketDays || {}).length ||
+      Object.keys(data.orderDays  || {}).length ||
+      Object.keys(data.gachaData  || {}).length ||
+      Object.keys(data.visitorData|| {}).length
+    );
+
+    if (fbHasData) {
+      // ── 正常從 Firebase 載入 ──
+      salesDays  = data.salesDays  || {};
+      ticketDays = data.ticketDays || {};
+      orderDays  = data.orderDays  || {};
+      const gRaw = data.gachaData || {};
+      _gachaCache = Object.entries(gRaw)
+        .map(([date, v]) => ({date, revenue:v.revenue||0, note:v.note||'', updatedAt:v.updatedAt||''}))
+        .sort((a,b)=>a.date.localeCompare(b.date));
+      const vRaw = data.visitorData || {};
+      _visitorCache = Object.entries(vRaw)
+        .map(([date, v]) => ({date, visitors:v.visitors||0, note:v.note||'', updatedAt:v.updatedAt||''}))
+        .sort((a,b)=>a.date.localeCompare(b.date));
+      const sCnt=Object.keys(salesDays).length, tCnt=Object.keys(ticketDays).length, oCnt=Object.keys(orderDays).length;
+      console.log('[VMR] Firebase loaded: sales='+sCnt+' ticket='+tCnt+' order='+oCnt);
+      toast('☁ 雲端資料：商品'+sCnt+'天 票房'+tCnt+'天 訂單'+oCnt+'天', 'ok', 6000);
+    } else {
+      // ── Firebase 是空的：嘗試從本機 localStorage 遷移 ──
+      document.getElementById('cl-text').textContent = '雲端無資料，正在從本機遷移…';
+      const lsSales   = _lsParse('vmr_salesDays_v1', {});
+      const lsTicket  = _lsParse('vmr_ticketDays_v1', {});
+      const lsOrder   = _lsParse('vmr_orderDays_v1', {});
+      const lsGacha   = _lsParse('vmr_gacha_data_v1', []);
+      const lsVisitor = _lsParse('vmr_visitor_data_v1', []);
+
+      const hasLocal =
+        Object.keys(lsSales).length || Object.keys(lsTicket).length ||
+        Object.keys(lsOrder).length || lsGacha.length || lsVisitor.length;
+
+      if (hasLocal) {
+        salesDays  = lsSales;
+        ticketDays = lsTicket;
+        orderDays  = lsOrder;
+        _gachaCache   = lsGacha;
+        _visitorCache = lsVisitor;
+
+        // 推送至 Firebase（背景執行，完成後顯示 toast）
+        pushLocalToCloud().then(() => {
+          toast('✓ 本機資料已同步至雲端，同事現在也可以查看數據', 'ok', 7000);
+        }).catch(e => {
+          console.warn('migrate failed', e);
+          toast('本機資料遷移失敗，請確認 Firebase 規則允許寫入', 'err', 6000);
+        });
+      }
+      // 若本機也無資料，保持空白（讓使用者上傳）
+    }
+  } catch(e) {
+    console.warn('vmr firebase init failed', e);
+    const errEl = document.getElementById('cl-err');
+    errEl.style.display = 'block';
+    errEl.innerHTML = '連線雲端資料庫失敗：' + e.message + '<br>請確認網路連線，或 Firebase 規則允許讀取。';
+    document.getElementById('cl-text').textContent = '載入失敗';
+  } finally {
+    el.style.display = 'none';
+  }
+  try { _applyCloudData(); } catch(e2) {
+    console.error('vmr render failed', e2);
+    toast('顯示資料時發生錯誤：' + e2.message, 'err', 10000);
+  }
+})();
+
+function goPage(p){const pages=Math.max(1,Math.ceil(filteredRows.length/PG));if(p<1||p>pages)return;tPage=p;renderTable();}
+
+// ─── 每日營收明細 Modal ───
+let _dayBreakdown=[];
+function showRevModal(){
+  const overlay=document.getElementById('rev-modal-overlay');
+  if(!overlay) return;
+
+  // ── 每日明細表 ──
+  const hasO=Object.keys(orderDays).length>0;
+  const hasT=Object.keys(ticketDays).length>0;
+  const allGacha=loadGachaData();
+  const gachaMap=allGacha.reduce(function(o,g){o[g.date]=g.revenue;return o;},{});
+  const allDates=[...new Set([
+    ...Object.keys(orderDays),
+    ...Object.keys(salesDays),
+    ...Object.keys(ticketDays),
+    ...allGacha.map(g=>g.date)
+  ])].sort();
+
+  let head='<thead><tr><th>日期</th>';
+  if(hasO) head+='<th>訂單結算<br><span style="font-weight:400;font-size:10px">（合計欄加總）</span></th>';
+  else head+='<th>商品銷售</th>';
+  if(hasT) head+='<th>票房</th>';
+  head+='<th>扭蛋</th><th style="color:var(--accent)">當日合計</th></tr></thead>';
+
+  let sumO=0,sumS=0,sumT=0,sumG=0,sumAll=0;
+  let body='<tbody>';
+  for(const d of allDates){
+    const oRev=orderDays[d]?orderDays[d].totalRevenue:0;
+    const sRev=salesDays[d]?salesDays[d].totalRevenue:0;
+    const tRev=ticketDays[d]?ticketDays[d].totalTicketRev:0;
+    const gRev=gachaMap[d]||0;
+    const dayTotal=hasO?(oRev+gRev):(sRev+tRev+gRev);
+    const oOrders=orderDays[d]?orderDays[d].totalOrders:0;
+    body+=`<tr><td>${d}</td>`;
+    if(hasO) body+=`<td>${oRev>0?`NT$ ${fmt(oRev)}<span style="color:var(--text3);font-size:10px"> (${oOrders}筆)`+`</span>`:'─'}</td>`;
+    else body+=`<td>${sRev>0?'NT$ '+fmt(sRev):'─'}</td>`;
+    if(hasT) body+=`<td>${tRev>0?'NT$ '+fmt(tRev):'─'}</td>`;
+    body+=`<td>${gRev>0?'NT$ '+fmt(gRev):'─'}</td>`;
+    body+=`<td style="font-weight:700;color:var(--accent)">NT$ ${fmt(dayTotal)}</td></tr>`;
+    sumO+=oRev;sumS+=sRev;sumT+=tRev;sumG+=gRev;sumAll+=dayTotal;
+  }
+  body+='</tbody>';
+
+  let foot=`<tfoot><tr><td>合計 (${allDates.length} 天)</td>`;
+  if(hasO) foot+=`<td style="font-weight:700">NT$ ${fmt(sumO)}</td>`;
+  else foot+=`<td style="font-weight:700">NT$ ${fmt(sumS)}</td>`;
+  if(hasT) foot+=`<td style="font-weight:700">NT$ ${fmt(sumT)}</td>`;
+  foot+=`<td style="font-weight:700">NT$ ${fmt(sumG)}</td>`;
+  foot+=`<td style="font-weight:700;color:var(--accent)">NT$ ${fmt(sumAll)}</td></tr></tfoot>`;
+
+  // ── 計算公式說明 ──
+  const formula=hasO
+    ?`<div style="margin-top:14px;padding:10px 12px;background:var(--surface2);border-radius:8px;font-size:11px;line-height:1.8">
+        <div style="font-weight:700;margin-bottom:6px;color:var(--text1)">累積總營收計算方式（訂單結算模式）</div>
+        <div>訂單結算合計：<span style="float:right;font-weight:600">NT$ ${fmt(sumO)}</span></div>
+        <div>扭蛋收入合計：<span style="float:right;font-weight:600">+ NT$ ${fmt(sumG)}</span></div>
+        <div style="border-top:1px solid var(--border);margin-top:4px;padding-top:4px;font-weight:700;color:var(--accent)">
+          累積總營收：<span style="float:right">= NT$ ${fmt(sumO+sumG)}</span></div>
+        <div style="margin-top:6px;color:var(--text3);font-size:10px">※ 訂單結算 = 讀取訂單報表「合計」欄加總（跳過合計為 0 的列）</div>
+      </div>`
+    :`<div style="margin-top:14px;padding:10px 12px;background:var(--surface2);border-radius:8px;font-size:11px;line-height:1.8">
+        <div style="font-weight:700;margin-bottom:6px;color:var(--text1)">累積總營收計算方式（銷售報表模式）</div>
+        <div>商品銷售合計：<span style="float:right;font-weight:600">NT$ ${fmt(sumS)}</span></div>
+        <div>票房收入合計：<span style="float:right;font-weight:600">+ NT$ ${fmt(sumT)}</span></div>
+        <div>扭蛋收入合計：<span style="float:right;font-weight:600">+ NT$ ${fmt(sumG)}</span></div>
+        <div style="border-top:1px solid var(--border);margin-top:4px;padding-top:4px;font-weight:700;color:var(--accent)">
+          累積總營收：<span style="float:right">= NT$ ${fmt(sumS+sumT+sumG)}</span></div>
+      </div>`;
+
+  document.getElementById('rev-modal-table').innerHTML=head+body+foot;
+  document.getElementById('rev-modal-formula').innerHTML=formula;
+  overlay.classList.add('open');
+}
+function closeRevModal(){document.getElementById('rev-modal-overlay').classList.remove('open');}
+window.showRevModal=showRevModal;
+window.closeRevModal=closeRevModal;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeRevModal();});
+</script>
+
+<div class="rmov" id="rev-modal-overlay" onclick="if(event.target===this)closeRevModal()">
+  <div class="rmod">
+    <div class="rmod-hd">
+      <div class="rmod-title">每日營收明細</div>
+      <button class="rmod-x" onclick="closeRevModal()">✕</button>
+    </div>
+    <div class="rmod-scroll">
+      <table id="rev-modal-table"></table>
+      <div id="rev-modal-formula"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Cloud loading overlay -->
+<div class="cloud-loading" id="cloud-loading">
+  <div class="cl-spinner"></div>
+  <div class="cl-text" id="cl-text">正在從雲端載入資料…</div>
+  <div class="cl-err" id="cl-err"></div>
+</div>
+
+<!-- Password Modal -->
+<div class="pw-overlay" id="pw-overlay">
+  <div class="pw-modal">
+    <div class="pw-icon">🔒</div>
+    <div class="pw-title">需要授權密碼</div>
+    <div class="pw-sub">此操作涉及資料變更，<br>請輸入管理員密碼繼續</div>
+    <input class="pw-input" id="pw-input" type="password" placeholder="••••••••" autocomplete="off"
+      onkeydown="if(event.key==='Enter')_pwSubmit();if(event.key==='Escape')_pwClose()">
+    <div class="pw-err" id="pw-err">密碼錯誤，請再試一次</div>
+    <div class="pw-btns">
+      <button class="pw-btn-cancel" onclick="_pwClose()">取消</button>
+      <button class="pw-btn-ok" onclick="_pwSubmit()">確認</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
