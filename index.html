@@ -837,10 +837,16 @@ function saveStore(type) {
   const map = {sales: salesDays, ticket: ticketDays, order: orderDays};
   const lsKey = {sales:'vmr_salesDays_v1', ticket:'vmr_ticketDays_v1', order:'vmr_orderDays_v1'};
   // 即時存到 localStorage，刷新也不會遺失
-  try { localStorage.setItem(lsKey[type], JSON.stringify(map[type])); } catch(e) {}
+  try {
+    localStorage.setItem(lsKey[type], JSON.stringify(map[type]));
+    const cnt = Object.keys(map[type]||{}).length;
+    console.log('[VMR] localStorage saved', type, cnt, 'days');
+  } catch(e) { console.error('[VMR] localStorage FAILED', type, e); }
   // 同步推送 Firebase 供其他裝置讀取
   if (!FB_URL) return;
-  fbPut('/' + type + 'Days', map[type] || {}).catch(e => {
+  fbPut('/' + type + 'Days', map[type] || {}).then(()=>{
+    console.log('[VMR] Firebase saved', type);
+  }).catch(e => {
     console.warn('vmr firebase save failed', e);
     toast('雲端儲存失敗，請檢查網路', 'err', 4000);
   });
@@ -892,6 +898,7 @@ function afterLoad(){
   const hasSales=sortedDates('sales').length>0;
   const hasTicket=sortedDates('ticket').length>0;
   const hasOrder=sortedDates('order').length>0;
+  console.log('[VMR] afterLoad: sales='+sortedDates('sales')+' ticket='+sortedDates('ticket')+' order='+sortedDates('order'));
   if(!hasSales&&!hasTicket&&!hasOrder) return;
   document.getElementById('filter-panel').style.display='block';
   renderChips();
@@ -2382,11 +2389,12 @@ window.pushLocalToCloud = pushLocalToCloud;
       const lsMerge = _lsParse('vmr_salesDays_v1', {});
       const ltMerge = _lsParse('vmr_ticketDays_v1', {});
       const loMerge = _lsParse('vmr_orderDays_v1', {});
+      console.log('[VMR] localStorage has sales='+Object.keys(lsMerge).length+' ticket='+Object.keys(ltMerge).length+' order='+Object.keys(loMerge).length);
       Object.assign(salesDays, lsMerge);
       Object.assign(ticketDays, ltMerge);
       Object.assign(orderDays, loMerge);
       const sCnt=Object.keys(salesDays).length, tCnt=Object.keys(ticketDays).length, oCnt=Object.keys(orderDays).length;
-      console.log('[VMR] Firebase loaded: sales='+sCnt+' ticket='+tCnt+' order='+oCnt);
+      console.log('[VMR] after merge: sales='+sCnt+' ticket='+tCnt+' order='+oCnt);
       toast('☁ 雲端資料：商品'+sCnt+'天 票房'+tCnt+'天 訂單'+oCnt+'天', 'ok', 6000);
     } else {
       // ── Firebase 是空的：嘗試從本機 localStorage 遷移 ──
