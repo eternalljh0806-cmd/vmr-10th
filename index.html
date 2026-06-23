@@ -834,8 +834,12 @@ function _fbToArr(v) {
 }
 
 function saveStore(type) {
-  if (!FB_URL) return;
   const map = {sales: salesDays, ticket: ticketDays, order: orderDays};
+  const lsKey = {sales:'vmr_salesDays_v1', ticket:'vmr_ticketDays_v1', order:'vmr_orderDays_v1'};
+  // 即時存到 localStorage，刷新也不會遺失
+  try { localStorage.setItem(lsKey[type], JSON.stringify(map[type])); } catch(e) {}
+  // 同步推送 Firebase 供其他裝置讀取
+  if (!FB_URL) return;
   fbPut('/' + type + 'Days', map[type] || {}).catch(e => {
     console.warn('vmr firebase save failed', e);
     toast('雲端儲存失敗，請檢查網路', 'err', 4000);
@@ -2374,6 +2378,13 @@ window.pushLocalToCloud = pushLocalToCloud;
       _visitorCache = Object.entries(vRaw)
         .map(([date, v]) => ({date, visitors:v.visitors||0, note:v.note||'', updatedAt:v.updatedAt||''}))
         .sort((a,b)=>a.date.localeCompare(b.date));
+      // 合并本機 localStorage（可能有還未推送到 Firebase 的最新上傳）
+      const lsMerge = _lsParse('vmr_salesDays_v1', {});
+      const ltMerge = _lsParse('vmr_ticketDays_v1', {});
+      const loMerge = _lsParse('vmr_orderDays_v1', {});
+      Object.assign(salesDays, lsMerge);
+      Object.assign(ticketDays, ltMerge);
+      Object.assign(orderDays, loMerge);
       const sCnt=Object.keys(salesDays).length, tCnt=Object.keys(ticketDays).length, oCnt=Object.keys(orderDays).length;
       console.log('[VMR] Firebase loaded: sales='+sCnt+' ticket='+tCnt+' order='+oCnt);
       toast('☁ 雲端資料：商品'+sCnt+'天 票房'+tCnt+'天 訂單'+oCnt+'天', 'ok', 6000);
