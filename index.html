@@ -841,7 +841,11 @@ function saveStore(type) {
     localStorage.setItem(lsKey[type], JSON.stringify(map[type]));
     const cnt = Object.keys(map[type]||{}).length;
     console.log('[VMR] localStorage saved', type, cnt, 'days');
-  } catch(e) { console.error('[VMR] localStorage FAILED', type, e); }
+    toast('💾 本機已儲存 ('+type+' '+cnt+'天)', 'ok', 2000);
+  } catch(e) {
+    console.error('[VMR] localStorage FAILED', type, e);
+    toast('⚠ 本機儲存失敗：'+e.message, 'err', 6000);
+  }
   // 同步推送 Firebase 供其他裝置讀取
   if (!FB_URL) return;
   fbPut('/' + type + 'Days', map[type] || {}).then(()=>{
